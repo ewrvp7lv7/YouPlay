@@ -226,7 +226,8 @@ public class SearchFragment extends BaseFragment implements OnMusicSelected, OnS
                     YoutubeMusicLoader ytLoader = new YoutubeMusicLoader(getContext(), query, audioService.getAudioPlayer().getSearchList());
                     if(audioService == null)
                         initAudioService();
-                    getLoaderManager().restartLoader(1, null, new LoaderManager.LoaderCallbacks<List<Music>>() {
+                    LoaderManager lm = LoaderManager.getInstance(SearchFragment.this);
+                    lm.restartLoader(1, null, new LoaderManager.LoaderCallbacks<List<Music>>() {
 
                         @Override
                         public Loader<List<Music>> onCreateLoader(int id, Bundle args) {
@@ -291,7 +292,7 @@ public class SearchFragment extends BaseFragment implements OnMusicSelected, OnS
                             swapAdapter = true;
                         }
 
-                        getActivity().getSupportLoaderManager().restartLoader(5, null, new LoaderManager.LoaderCallbacks<List<String>>() {
+                        LoaderManager.getInstance(requireActivity()).restartLoader(5, null, new LoaderManager.LoaderCallbacks<List<String>>() {
 
                             @Override
                             public Loader<List<String>> onCreateLoader(int id, Bundle args) {
@@ -353,7 +354,8 @@ public class SearchFragment extends BaseFragment implements OnMusicSelected, OnS
             initAudioService();
 
 //        loadMore.setVisibility(View.VISIBLE);
-        getLoaderManager().restartLoader(1, null, new LoaderManager.LoaderCallbacks<List<Music>>() {
+        LoaderManager lm = LoaderManager.getInstance(this);
+        lm.restartLoader(1, null, new LoaderManager.LoaderCallbacks<List<Music>>() {
 
             @Override
             public Loader<List<Music>> onCreateLoader(int id, Bundle args) {

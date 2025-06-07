@@ -24,6 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeLauncher"
         tools:ignore="GoogleAppIndexingWarning">
+        <!-- Главная активность, с которой начинается приложение -->
         <activity
             android:name="com.stipess.youplay.MainActivity"
             android:launchMode="singleTask"

@@ -29,7 +29,6 @@ import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.JobIntentService;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.media.session.MediaButtonReceiver;
@@ -73,7 +72,9 @@ import static com.stipess.youplay.utils.Constants.*;
  * along with YouPlay.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class AudioService extends JobIntentService implements AudioManager.OnAudioFocusChangeListener
+import android.app.Service;
+
+public class AudioService extends Service implements AudioManager.OnAudioFocusChangeListener
 {
 
     private static final String TAG = AudioService.class.getSimpleName();
@@ -469,10 +470,6 @@ public class AudioService extends JobIntentService implements AudioManager.OnAud
             manager.notify(NOTIFICATION_ID, notification);
     }
 
-    @Override
-    protected void onHandleWork(@NonNull Intent intent) {
-
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)

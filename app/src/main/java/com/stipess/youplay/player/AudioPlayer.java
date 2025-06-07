@@ -7,14 +7,14 @@ import android.util.Log;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.stipess.youplay.AudioService;
@@ -45,11 +45,11 @@ import java.util.Collections;
  * along with YouPlay.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class AudioPlayer implements Player.EventListener{
+public class AudioPlayer implements Player.Listener{
 
     private AudioService audioService = AudioService.getInstance();
 
-    private SimpleExoPlayer exoPlayer;
+    private ExoPlayer exoPlayer;
     // Lista pjesama
     private ArrayList<Music> musicList = new ArrayList<>();
     // Kopija lista pjesama za shuffle
@@ -107,7 +107,11 @@ public class AudioPlayer implements Player.EventListener{
 
     public AudioPlayer(Context context) {
         this.context = context;
-        exoPlayer = ExoPlayerFactory.newSimpleInstance(context, new DefaultRenderersFactory(context), new DefaultTrackSelector(), new DefaultLoadControl());
+        exoPlayer = new ExoPlayer.Builder(context)
+                .setRenderersFactory(new DefaultRenderersFactory(context))
+                .setTrackSelector(new DefaultTrackSelector(context))
+                .setLoadControl(new DefaultLoadControl())
+                .build();
         exoPlayer.addListener(this);
     }
 
@@ -238,11 +242,12 @@ public class AudioPlayer implements Player.EventListener{
         currentlyPlaying = music;
         currentlyPlayingStation = null;
         Uri uri = Uri.parse(music.getPath());
-        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "YouPlay"), null);
+        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "YouPlay"));
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-        MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null);
-        exoPlayer.setAudioStreamType(C.STREAM_TYPE_MUSIC);
-        exoPlayer.prepare(mediaSource);
+        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory, extractorsFactory)
+                .createMediaSource(MediaItem.fromUri(uri));
+        exoPlayer.setMediaSource(mediaSource);
+        exoPlayer.prepare();
         exoPlayer.setPlayWhenReady(true);
     }
 
@@ -250,11 +255,12 @@ public class AudioPlayer implements Player.EventListener{
         currentlyPlayingStation = station;
         currentlyPlaying = null;
         Uri uri = Uri.parse(station.getUrl());
-        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "YouPlay"), null);
+        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "YouPlay"));
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-        MediaSource mediaSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null);
-        exoPlayer.setAudioStreamType(C.STREAM_TYPE_MUSIC);
-        exoPlayer.prepare(mediaSource);
+        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory, extractorsFactory)
+                .createMediaSource(MediaItem.fromUri(uri));
+        exoPlayer.setMediaSource(mediaSource);
+        exoPlayer.prepare();
         exoPlayer.setPlayWhenReady(true);
     }
 

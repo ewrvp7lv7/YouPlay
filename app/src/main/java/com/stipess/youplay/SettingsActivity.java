@@ -69,9 +69,8 @@ public class SettingsActivity extends AppCompatActivity implements OnThemeChange
         else
             setTheme(R.style.LightTheme);
 
-        finish();
         startActivity(getIntent());
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        finish();
     }
 
     @Override

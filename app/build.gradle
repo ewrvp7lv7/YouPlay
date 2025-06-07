@@ -72,7 +72,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:22.4.0'
 
     // Use NewPipeExtractor from JitPack instead of the deprecated repository
-    implementation 'com.github.TeamNewPipe:NewPipeExtractor:v0.23.3'
+    implementation 'com.github.TeamNewPipe:NewPipeExtractor:0.23.3'
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'org.jsoup:jsoup:1.17.1'
     implementation 'com.github.TeamNewPipe:nanojson:1d9e1aea9049fc9f85e68b43ba39fe7be1c1f751'

@@ -237,8 +237,18 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     viewHolder.view.setText(stringBuilder1);
                     viewHolder.duration.setText(list.getDuration());
 
-                    Glide.with(context).load(FileManager.getPictureFile(list.getId())).thumbnail( 0.1f ).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).
-                            skipMemoryCache(true).format(DecodeFormat.PREFER_RGB_565).override(480,360)).into(viewHolder.image);
+                    Glide.with(context)
+                            .load(FileManager.getPictureFile(list.getId()))
+                            .thumbnail(
+                                    Glide.with(context)
+                                            .load(FileManager.getPictureFile(list.getId()))
+                                            .apply(new RequestOptions().override(100))
+                            )
+                            .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true)
+                                    .format(DecodeFormat.PREFER_RGB_565)
+                                    .override(480,360))
+                            .into(viewHolder.image);
 
                     if(list.getDownloaded() == 1)
                         viewHolder.downloaded.setText(R.string.you_downloaded);

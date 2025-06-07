@@ -128,7 +128,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     }
                 });
 
-                web.execute();
+                web.load();
                 return false;
             }
         });

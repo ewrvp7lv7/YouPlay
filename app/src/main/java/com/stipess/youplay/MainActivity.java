@@ -456,7 +456,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
 
                 }
             });
-            web.execute();
+            web.load();
 
         }
         else

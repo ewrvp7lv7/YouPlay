@@ -377,19 +377,35 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 
         Intent play_pause = new Intent(this, ButtonListener.class);
         play_pause.putExtra(ButtonListener.BUTTON, PLAY_PAUSE);
-        PendingIntent play_pause_btn = PendingIntent.getBroadcast(getApplicationContext(), 111, play_pause, 0);
+        PendingIntent play_pause_btn = PendingIntent.getBroadcast(
+                getApplicationContext(),
+                111,
+                play_pause,
+                PendingIntent.FLAG_IMMUTABLE);
 
         Intent next = new Intent(this, ButtonListener.class);
         next.putExtra(ButtonListener.BUTTON, NEXT);
-        PendingIntent next_btn = PendingIntent.getBroadcast(getApplicationContext(), 112, next, 0);
+        PendingIntent next_btn = PendingIntent.getBroadcast(
+                getApplicationContext(),
+                112,
+                next,
+                PendingIntent.FLAG_IMMUTABLE);
 
         Intent previous = new Intent(this, ButtonListener.class);
         previous.putExtra(ButtonListener.BUTTON, PREVIOUS);
-        PendingIntent previous_btn = PendingIntent.getBroadcast(getApplicationContext(), 113, previous, 0);
+        PendingIntent previous_btn = PendingIntent.getBroadcast(
+                getApplicationContext(),
+                113,
+                previous,
+                PendingIntent.FLAG_IMMUTABLE);
 
         Intent cancel = new Intent(this, ButtonListener.class);
         cancel.putExtra(ButtonListener.BUTTON, EXIT);
-        PendingIntent cancel_btn = PendingIntent.getBroadcast(getApplicationContext(), 114, cancel, 0);
+        PendingIntent cancel_btn = PendingIntent.getBroadcast(
+                getApplicationContext(),
+                114,
+                cancel,
+                PendingIntent.FLAG_IMMUTABLE);
 
         String id = "";
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -425,7 +441,11 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
             builder.setChannelId(id);
 
         Intent actionIntent = new Intent(this, MainActivity.class);
-        PendingIntent actionPendingIntent = PendingIntent.getActivity(this, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent actionPendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                actionIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         builder.setContentIntent(actionPendingIntent);
 
         return builder.build();

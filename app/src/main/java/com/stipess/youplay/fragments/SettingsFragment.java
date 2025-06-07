@@ -1,7 +1,6 @@
 package com.stipess.youplay.fragments;
 
 
-import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.widget.ProgressBar;
 import android.content.DialogInterface;
@@ -13,9 +12,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.preference.PreferenceManager;
 import androidx.core.content.ContextCompat;
-import android.view.WindowInsetsController;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -97,27 +96,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            WindowInsetsControllerCompat insetsController =
+                    WindowCompat.getInsetsController(window, window.getDecorView());
             if(pre) {
                 window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.toolbar_color));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    WindowInsetsController controller = window.getInsetsController();
-                    if (controller != null) {
-                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                    }
-                } else {
-                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-                }
-            } else{
+                insetsController.setAppearanceLightStatusBars(false);
+            } else {
                 window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.adapter_color));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    WindowInsetsController controller = window.getInsetsController();
-                    if (controller != null) {
-                        controller.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                    }
-                } else {
-                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                }
+                insetsController.setAppearanceLightStatusBars(true);
             }
         }
 

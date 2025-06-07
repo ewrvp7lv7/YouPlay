@@ -17,7 +17,6 @@ import android.net.ConnectivityManager;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.RemoteException;
 import androidx.preference.PreferenceManager;
 
 import androidx.media.MediaDescriptionCompat;
@@ -133,13 +132,10 @@ public class AudioService extends JobIntentService implements AudioManager.OnAud
         mediaSessionCompat = new MediaSessionCompat(this, getPackageName());
         mediaSessionCompat.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS);
 
-        try {
-            MediaControllerCompat mediaControllerCompat = new MediaControllerCompat(getApplicationContext(), mediaSessionCompat.getSessionToken());
-//            MediaControllerCompat.setMediaController(getApplication(), mediaSessionCompat.getController());
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        MediaControllerCompat mediaControllerCompat = new MediaControllerCompat(
+                getApplicationContext(),
+                mediaSessionCompat.getSessionToken());
+//        MediaControllerCompat.setMediaController(getApplication(), mediaSessionCompat.getController());
 
         MediaSessionCompat.Callback mController = new MediaSessionCompat.Callback() {
 

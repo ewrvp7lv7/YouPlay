@@ -120,7 +120,7 @@ public class YoutubeMusicLoader extends AsyncTaskLoader<List<Music>> {
                 Music music = new Music();
                 music.setAuthor(stream.getUploaderName());
                 music.setViews(Utils.convertViewsToString(stream.getViewCount()));
-                music.setUrlImage(stream.getThumbnailUrl());
+                music.setUrlImage(Utils.getThumbnailUrl(stream));
                 music.setTitle(stream.getName());
                 String tempUrl = stream.getUrl();
                 if(tempUrl.contains("https://youtu.be/")) {

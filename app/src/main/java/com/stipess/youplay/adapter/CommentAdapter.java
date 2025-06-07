@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.stipess.youplay.Ilisteners.OnCommentClicked;
 import com.stipess.youplay.R;
 import com.stipess.youplay.fragments.PlayFragment;
+import com.stipess.youplay.utils.Utils;
 
 import org.schabi.newpipe.extractor.comments.CommentsInfoItem;
 
@@ -83,11 +84,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             CommentsInfoItem item = list.get(position);
 
             ((ViewHolder) holder).author.setText(item.getUploaderName());
-            ((ViewHolder) holder).commentText.setText(item.getCommentText());
+            ((ViewHolder) holder).commentText.setText(item.getCommentText().toString());
             ((ViewHolder) holder).commentLike.setText(Integer.toString(item.getLikeCount()));
             ((ViewHolder) holder).commentDate.setText(item.getTextualUploadDate());
-            Glide.with(context).load(item.getUploaderAvatarUrl()).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(false)
-            ).into(((ViewHolder) holder).image);
+            Glide.with(context)
+                    .load(Utils.getThumbnailUrl(item))
+                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(false))
+                    .into(((ViewHolder) holder).image);
 
             ((ViewHolder) holder).itemView.setTag(item);
 

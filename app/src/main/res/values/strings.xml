@@ -20,6 +20,7 @@
     <string name="you_temp_time" translatable="false">0:00</string>
     <string name="no_internet_connection">There is no internet connection</string>
     <string name="perms_request">Request permissions</string>
+    <string name="rationale_ask">Allow permissions to fully use the app</string>
     <string name="rationale_ok">OK</string>
     <string name="rationale_cancel">Cancel</string>
     <string name="rationale_dont_ask_again">Don\'t show again</string>

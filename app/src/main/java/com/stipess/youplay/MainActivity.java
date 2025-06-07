@@ -322,9 +322,9 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                             tabLayout.setVisibility(View.GONE);
                         else
                         {
-                            tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.play_fragment_bars));
+                            tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.play_fragment_bars));
                             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                window.setStatusBarColor(ContextCompat.getColor(this, R.color.black_b));
+                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.black_b));
                                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                             }
 

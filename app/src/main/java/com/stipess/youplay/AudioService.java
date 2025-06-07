@@ -534,7 +534,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             return intent.getParcelableExtra(key, clazz);
         }
-        return IntentCompat.getParcelableExtra(intent, key);
+        return IntentCompat.getParcelableExtra(intent, key, clazz);
     }
 
 

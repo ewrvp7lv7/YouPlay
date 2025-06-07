@@ -331,7 +331,15 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                         {
                             tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.play_fragment_bars));
                             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.black_b));
+                                int color = ContextCompat.getColor(MainActivity.this, R.color.black_b);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                    WindowInsetsController controller = window.getInsetsController();
+                                    if (controller != null) {
+                                        controller.setSystemBarsColor(color, /* nonWindowDecor= */ false);
+                                    }
+                                } else {
+                                    window.setStatusBarColor(color);
+                                }
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                                     WindowInsetsController controller = window.getInsetsController();
                                     if (controller != null) {
@@ -353,10 +361,17 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                         tabLayout.setVisibility(View.VISIBLE);
                         tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, ThemeManager.getTheme()));
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            if(pre)
-                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.toolbar_color));
-                            else{
-                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.adapter_color));
+                            int color = ContextCompat.getColor(MainActivity.this,
+                                    pre ? R.color.toolbar_color : R.color.adapter_color);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                WindowInsetsController controller = window.getInsetsController();
+                                if (controller != null) {
+                                    controller.setSystemBarsColor(color, /* nonWindowDecor= */ false);
+                                }
+                            } else {
+                                window.setStatusBarColor(color);
+                            }
+                            if(!pre) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                                     WindowInsetsController controller = window.getInsetsController();
                                     if (controller != null) {
@@ -365,6 +380,15 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                                     }
                                 } else {
                                     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                }
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    WindowInsetsController controller = window.getInsetsController();
+                                    if (controller != null) {
+                                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
+                                    }
+                                } else {
+                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                                 }
                             }
                         }
@@ -380,10 +404,17 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                         tabLayout.setVisibility(View.VISIBLE);
                         tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, ThemeManager.getTheme()));
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            if(pre)
-                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.toolbar_color));
-                            else{
-                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.adapter_color));
+                            int color = ContextCompat.getColor(MainActivity.this,
+                                    pre ? R.color.toolbar_color : R.color.adapter_color);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                WindowInsetsController controller = window.getInsetsController();
+                                if (controller != null) {
+                                    controller.setSystemBarsColor(color, /* nonWindowDecor= */ false);
+                                }
+                            } else {
+                                window.setStatusBarColor(color);
+                            }
+                            if(!pre) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                                     WindowInsetsController controller = window.getInsetsController();
                                     if (controller != null) {
@@ -392,6 +423,15 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                                     }
                                 } else {
                                     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                }
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    WindowInsetsController controller = window.getInsetsController();
+                                    if (controller != null) {
+                                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
+                                    }
+                                } else {
+                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                                 }
                             }
                         }
@@ -406,10 +446,17 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                         tabLayout.setVisibility(View.VISIBLE);
                         tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, ThemeManager.getTheme()));
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            if(pre)
-                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.toolbar_color));
-                            else{
-                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.adapter_color));
+                            int color = ContextCompat.getColor(MainActivity.this,
+                                    pre ? R.color.toolbar_color : R.color.adapter_color);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                WindowInsetsController controller = window.getInsetsController();
+                                if (controller != null) {
+                                    controller.setSystemBarsColor(color, /* nonWindowDecor= */ false);
+                                }
+                            } else {
+                                window.setStatusBarColor(color);
+                            }
+                            if(!pre) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                                     WindowInsetsController controller = window.getInsetsController();
                                     if (controller != null) {
@@ -418,6 +465,15 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                                     }
                                 } else {
                                     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                }
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    WindowInsetsController controller = window.getInsetsController();
+                                    if (controller != null) {
+                                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
+                                    }
+                                } else {
+                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                                 }
                             }
                         }
@@ -433,10 +489,17 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                         tabLayout.setVisibility(View.VISIBLE);
                         tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, ThemeManager.getTheme()));
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            if(pre)
-                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.play_fragment_bars));
-                            else {
-                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.white));
+                            int color = ContextCompat.getColor(MainActivity.this,
+                                    pre ? R.color.play_fragment_bars : R.color.white);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                WindowInsetsController controller = window.getInsetsController();
+                                if (controller != null) {
+                                    controller.setSystemBarsColor(color, /* nonWindowDecor= */ false);
+                                }
+                            } else {
+                                window.setStatusBarColor(color);
+                            }
+                            if(!pre) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                                     WindowInsetsController controller = window.getInsetsController();
                                     if (controller != null) {
@@ -445,6 +508,15 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                                     }
                                 } else {
                                     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                }
+                            } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    WindowInsetsController controller = window.getInsetsController();
+                                    if (controller != null) {
+                                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
+                                    }
+                                } else {
+                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                                 }
                             }
                         }

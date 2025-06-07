@@ -14,6 +14,7 @@ import androidx.preference.PreferenceManager;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
+import android.view.WindowInsetsController;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -98,11 +99,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WindowInsetsControllerCompat insetsController =
                     WindowCompat.getInsetsController(window, window.getDecorView());
+            int color = ContextCompat.getColor(requireContext(),
+                    pre ? R.color.toolbar_color : R.color.adapter_color);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                WindowInsetsController controller = window.getInsetsController();
+                if (controller != null) {
+                    controller.setSystemBarsColor(color, /* nonWindowDecor= */ false);
+                }
+            } else {
+                window.setStatusBarColor(color);
+            }
             if(pre) {
-                window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.toolbar_color));
                 insetsController.setAppearanceLightStatusBars(false);
             } else {
-                window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.adapter_color));
                 insetsController.setAppearanceLightStatusBars(true);
             }
         }

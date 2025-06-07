@@ -1,8 +1,11 @@
 package com.stipess.youplay.utils;
 
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowInsetsController;
 
 import com.stipess.youplay.BuildConfig;
 
@@ -135,6 +138,36 @@ public class Utils {
             }
         } catch (Exception ignored) {}
         return null;
+    }
+
+    /**
+     * Set the color of the system bars on devices where the API is available.
+     * <p>
+     * This method uses reflection for newer APIs to keep the project
+     * compatible with older Android SDKs.
+     */
+    public static void setSystemBarsColor(Window window, int color) {
+        if (window == null) return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowInsetsController controller = window.getInsetsController();
+            if (controller != null) {
+                try {
+                    java.lang.reflect.Method m = controller.getClass().getMethod(
+                            "setSystemBarsColor", int.class, boolean.class);
+                    m.invoke(controller, color, false);
+                    return;
+                } catch (Exception ignored) {
+                }
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(color);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                window.setNavigationBarColor(color);
+            }
+        }
     }
 
 }

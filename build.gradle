@@ -24,3 +24,8 @@ allprojects {
 tasks.register("clean", Delete) {
     delete(rootProject.layout.buildDirectory)
 }
+
+// Ensure all Java compile tasks are configured lazily
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

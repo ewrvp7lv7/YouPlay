@@ -4,6 +4,9 @@ android {
     namespace 'com.stipess.youplay'
 
     compileSdkVersion 35
+    buildFeatures {
+        buildConfig true
+    }
     lintOptions {
         checkReleaseBuilds false
         abortOnError false

@@ -29,6 +29,10 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import androidx.media.session.PlaybackStateCompat;
 import android.util.DisplayMetrics;
+import android.os.Build;
+import android.graphics.Rect;
+import android.view.WindowManager;
+import android.view.WindowMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -1007,15 +1011,23 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         final ConstraintLayout layout = getView().findViewById(R.id.play_list_layout);
         final ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) layout.getLayoutParams();
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        float heightPixels;
+        WindowManager wm = requireActivity().getSystemService(WindowManager.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowMetrics winMetrics = wm.getCurrentWindowMetrics();
+            Rect bounds = winMetrics.getBounds();
+            heightPixels = bounds.height();
+        } else {
+            DisplayMetrics metrics = new DisplayMetrics();
+            wm.getDefaultDisplay().getMetrics(metrics);
+            heightPixels = metrics.heightPixels;
+        }
 
         if(!slided)
         {
             currentHeight = layout.getHeight();
 
-            float heightPixels = (float) metrics.heightPixels;
-            layoutHeight = 0.75f*heightPixels;
+            layoutHeight = 0.75f * heightPixels;
 
             params.width = layout.getWidth();
             params.height = (int) currentHeight;

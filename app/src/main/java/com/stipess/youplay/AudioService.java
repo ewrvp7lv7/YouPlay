@@ -34,6 +34,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.media.session.MediaButtonReceiver;
+import android.os.Parcelable;
 
 import com.liulishuo.filedownloader.FileDownloader;
 import com.stipess.youplay.listeners.AudioOutputListener;
@@ -522,6 +523,14 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
             manager.notify(NOTIFICATION_ID, notification);
     }
 
+    private <T extends Parcelable> T getParcelable(Intent intent, String key, Class<T> clazz) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            return intent.getParcelableExtra(key, clazz);
+        else
+            //noinspection deprecation
+            return intent.getParcelableExtra(key);
+    }
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
@@ -530,17 +539,11 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
         {
             if(intent.hasExtra(SONG) && !audioPlayer.isStream())
             {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                    music = intent.getParcelableExtra(SONG, Music.class);
-                else
-                    music = intent.getParcelableExtra(SONG);
+                music = getParcelable(intent, SONG, Music.class);
             }
             else if(audioPlayer.isStream() && intent.hasExtra(SONG))
             {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                    station = intent.getParcelableExtra(SONG, Station.class);
-                else
-                    station = intent.getParcelableExtra(SONG);
+                station = getParcelable(intent, SONG, Station.class);
             }
 
 

@@ -69,6 +69,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.stipess.youplay.utils.Constants.*;
 
@@ -401,7 +404,7 @@ public class SearchFragment extends BaseFragment implements OnMusicSelected, OnS
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState)
     {
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState)
             {
@@ -484,7 +487,33 @@ public class SearchFragment extends BaseFragment implements OnMusicSelected, OnS
             ConnectivityManager connectivityManager
                     = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             if(connectivityManager != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    final AtomicBoolean connected = new AtomicBoolean(false);
+                    final CountDownLatch latch = new CountDownLatch(1);
+                    ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback() {
+                        @Override
+                        public void onAvailable(@NonNull Network network) {
+                            connected.set(true);
+                            latch.countDown();
+                        }
+
+                        @Override
+                        public void onUnavailable() {
+                            connected.set(false);
+                            latch.countDown();
+                        }
+                    };
+                    connectivityManager.registerDefaultNetworkCallback(callback);
+                    try {
+                        latch.await(100, TimeUnit.MILLISECONDS);
+                    } catch (InterruptedException ignored) {}
+                    connectivityManager.unregisterNetworkCallback(callback);
+                    if (connected.get()) {
+                        animate(internet);
+                        internet.setVisibility(View.GONE);
+                        return true;
+                    }
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     Network network = connectivityManager.getActiveNetwork();
                     if (network != null) {
                         NetworkCapabilities caps = connectivityManager.getNetworkCapabilities(network);

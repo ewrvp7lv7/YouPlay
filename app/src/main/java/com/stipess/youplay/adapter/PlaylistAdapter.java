@@ -170,7 +170,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                 if(play == ListType.PLAYLIST_TABLE && isEdit) {
                     return makeMovementFlags(ItemTouchHelper.DOWN | ItemTouchHelper.UP, 0);
                 }
-                if(viewHolder.getAdapterPosition() == position || play == ListType.STATIONS || play == ListType.PLAYLIST_TABLE)
+                if(viewHolder.getBindingAdapterPosition() == position || play == ListType.STATIONS || play == ListType.PLAYLIST_TABLE)
                     return makeMovementFlags(0,0);
                 return makeMovementFlags(0,
                         ItemTouchHelper.RIGHT);
@@ -180,17 +180,17 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 if(play == ListType.PLAYLIST_TABLE) {
                     moved = true;
-                    int adapterPos = viewHolder.getAdapterPosition();
-                    int targetPos = target.getAdapterPosition();
+                    int adapterPos = viewHolder.getBindingAdapterPosition();
+                    int targetPos = target.getBindingAdapterPosition();
                     if(playlists.size() > 1)
                     {
-                        Collections.swap(playlists, viewHolder.getAdapterPosition(), target.getAdapterPosition());
-                        adapterPos = viewHolder.getAdapterPosition();
-                        targetPos = target.getAdapterPosition();
+                        Collections.swap(playlists, viewHolder.getBindingAdapterPosition(), target.getBindingAdapterPosition());
+                        adapterPos = viewHolder.getBindingAdapterPosition();
+                        targetPos = target.getBindingAdapterPosition();
                     }
 
 
-                    notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                    notifyItemMoved(viewHolder.getBindingAdapterPosition(), target.getBindingAdapterPosition());
 
                    SQLiteDatabase db  = youPlayDatabase.getDatabase(YouPlayDatabase.PLAYLIST_DB);
 
@@ -221,7 +221,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                int adapterPos = viewHolder.getAdapterPosition();
+                int adapterPos = viewHolder.getBindingAdapterPosition();
                 if(play != ListType.STATIONS)
                 {
                     list.remove(adapterPos);

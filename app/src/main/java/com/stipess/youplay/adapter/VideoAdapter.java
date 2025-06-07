@@ -109,22 +109,22 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
 
-                if(viewHolder.getItemViewType() != target.getItemViewType() || viewHolder.getAdapterPosition() == 0)
+    if(viewHolder.getItemViewType() != target.getItemViewType() || viewHolder.getBindingAdapterPosition() == 0)
                     return false;
 
                 moved = true;
-                int adapterPos = viewHolder.getAdapterPosition();
-                int targetPos = target.getAdapterPosition();
+    int adapterPos = viewHolder.getBindingAdapterPosition();
+    int targetPos = target.getBindingAdapterPosition();
                 if(data.size() > 1)
                 {
-                    Collections.swap(data, viewHolder.getAdapterPosition()-1, target.getAdapterPosition()-1);
-                    adapterPos = viewHolder.getAdapterPosition()-1;
-                    targetPos = target.getAdapterPosition()-1;
+        Collections.swap(data, viewHolder.getBindingAdapterPosition()-1, target.getBindingAdapterPosition()-1);
+        adapterPos = viewHolder.getBindingAdapterPosition()-1;
+        targetPos = target.getBindingAdapterPosition()-1;
                 }
                 else
-                    Collections.swap(data, viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        Collections.swap(data, viewHolder.getBindingAdapterPosition(), target.getBindingAdapterPosition());
 
-                notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+    notifyItemMoved(viewHolder.getBindingAdapterPosition(), target.getBindingAdapterPosition());
 
                 SQLiteDatabase db;
                 if(tableName.equals(Constants.TABLE_NAME) && history)

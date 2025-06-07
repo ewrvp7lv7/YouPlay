@@ -231,7 +231,10 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
                     .build();
             audioManager.requestAudioFocus(focusRequest);
         } else {
-            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+            @SuppressWarnings("deprecation")
+            int result = audioManager.requestAudioFocus(this,
+                    AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN);
         }
 
 //        remoteViews = new RemoteViews(getApplication().getPackageName(), R.layout.custom_notification);
@@ -347,7 +350,10 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 audioManager.requestAudioFocus(focusRequest);
             } else {
-                audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+                @SuppressWarnings("deprecation")
+                int result = audioManager.requestAudioFocus(this,
+                        AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN);
             }
             if(!this.title.equals("") && !this.image.equals("")) {
                 PlaybackStateCompat.Builder stateBuilder = new PlaybackStateCompat.Builder()
@@ -693,7 +699,8 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             audioManager.abandonAudioFocusRequest(focusRequest);
         } else {
-            audioManager.abandonAudioFocus(this);
+            @SuppressWarnings("deprecation")
+            int result = audioManager.abandonAudioFocus(this);
         }
         audioPlayer.stop();
         audioPlayer.release();

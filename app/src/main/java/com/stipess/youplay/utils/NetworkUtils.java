@@ -51,6 +51,7 @@ public final class NetworkUtils {
                     || caps.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH)
                     || caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN));
         } else {
+            @SuppressWarnings("deprecation")
             Network[] networks = cm.getAllNetworks();
             for (Network network : networks) {
                 NetworkCapabilities caps = cm.getNetworkCapabilities(network);

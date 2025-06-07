@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+import android.app.Service;
 
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -312,7 +313,6 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                 pre = preferences.getBoolean(SettingsFragment.KEY, false);
 
                 Window window = getWindow();
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
@@ -748,10 +748,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        handleBackPressed();
-    }
+
 
     private void handleBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
@@ -842,7 +839,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
         else if(keyCode == KeyEvent.KEYCODE_BACK && fm.getBackStackEntryCount() != 0)
         {
             Log.d("PlayFragKey", "OnbackPressed");
-            onBackPressed();
+            handleBackPressed();
             return true;
         }
         else if(keyCode == KeyEvent.KEYCODE_BACK)
@@ -910,7 +907,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                 searchFragment.ifInternetConnection();
                 break;
             case Constants.EXIT:
-                audioService.stopForeground(true);
+                audioService.stopForeground(Service.STOP_FOREGROUND_REMOVE);
                 this.finishAffinity();
                 break;
         }

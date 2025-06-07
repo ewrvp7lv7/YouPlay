@@ -142,8 +142,6 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
         delete.setOnClickListener(this);
         setupAdapter();
 
-        setHasOptionsMenu(true);
-
         Toolbar toolbar = view.findViewById(R.id.toolbar);
        // searchView = view.findViewById(R.id.history_search_view);
 
@@ -167,6 +165,52 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
                 adapter.filter(s);
                 return true;
             }
+        });
+
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            if(id == R.id.latest) {
+                YouPlayDatabase db = YouPlayDatabase.getInstance();
+                if(db.getOrder().equals(Constants.ORDER_OLDEST)) {
+                    Collections.reverse(musicList);
+                    adapter.notifyDataSetChanged();
+                    YouPlayDatabase.getInstance(getContext()).settingsOrderBy(Constants.ORDER_LATEST);
+                    if(PlayFragment.currentlyPlayingSong != null)
+                        onItemClicked.refreshSuggestions(musicList, true);
+
+                    Snackbar snackbar = Snackbar.make(getView(), getResources().getString(R.string.changes_saved), Snackbar.LENGTH_SHORT);
+                    View snackView = snackbar.getView();
+                    TextView textView = snackView.findViewById(com.google.android.material.R.id.snackbar_text);
+                    textView.setTextColor(ContextCompat.getColor(getContext(), ThemeManager.getSnackbarFont()));
+                    snackbar.show();
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.al_latest), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            } else if(id == R.id.oldest) {
+                YouPlayDatabase db = YouPlayDatabase.getInstance();
+                if(db.getOrder().equals(Constants.ORDER_LATEST)) {
+                    Collections.reverse(musicList);
+                    adapter.notifyDataSetChanged();
+                    YouPlayDatabase.getInstance(getContext()).settingsOrderBy(Constants.ORDER_OLDEST);
+                    if(PlayFragment.currentlyPlayingSong != null)
+                        onItemClicked.refreshSuggestions(musicList, true);
+
+                    Snackbar snackbar = Snackbar.make(getView(), getResources().getString(R.string.changes_saved), Snackbar.LENGTH_SHORT);
+                    View snackView = snackbar.getView();
+                    TextView textView = snackView.findViewById(com.google.android.material.R.id.snackbar_text);
+                    textView.setTextColor(ContextCompat.getColor(getContext(), ThemeManager.getSnackbarFont()));
+                    snackbar.show();
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.al_oldest), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            } else if(id == R.id.settings) {
+                Intent intent = new Intent(getContext(), SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            return false;
         });
 
 //        setSearchView();
@@ -389,64 +433,6 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
         return false;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        int id = item.getItemId();
-        if(id == R.id.latest)
-        {
-            YouPlayDatabase db = YouPlayDatabase.getInstance();
-            if(db.getOrder().equals(Constants.ORDER_OLDEST))
-            {
-                Collections.reverse(musicList);
-                adapter.notifyDataSetChanged();
-                YouPlayDatabase.getInstance(getContext()).settingsOrderBy(Constants.ORDER_LATEST);
-                if(PlayFragment.currentlyPlayingSong != null)
-                    onItemClicked.refreshSuggestions(musicList, true);
-
-                Snackbar snackbar = Snackbar.make(getView(), getResources().getString(R.string.changes_saved), Snackbar.LENGTH_SHORT);
-                View view = snackbar.getView();
-                TextView textView = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                textView.setTextColor(ContextCompat.getColor(getContext(), ThemeManager.getSnackbarFont()));
-                snackbar.show();
-            }
-            else
-            {
-                Toast.makeText(getContext(), getResources().getString(R.string.al_latest), Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        }
-        else if(id == R.id.oldest)
-        {
-            YouPlayDatabase db = YouPlayDatabase.getInstance();
-            if(db.getOrder().equals(Constants.ORDER_LATEST))
-            {
-                Collections.reverse(musicList);
-                adapter.notifyDataSetChanged();
-                YouPlayDatabase.getInstance(getContext()).settingsOrderBy(Constants.ORDER_OLDEST);
-                if(PlayFragment.currentlyPlayingSong != null)
-                    onItemClicked.refreshSuggestions(musicList, true);
-
-                Snackbar snackbar = Snackbar.make(getView(), getResources().getString(R.string.changes_saved), Snackbar.LENGTH_SHORT);
-                View view = snackbar.getView();
-                TextView textView = view.findViewById(com.google.android.material.R.id.snackbar_text);
-                textView.setTextColor(ContextCompat.getColor(getContext(), ThemeManager.getSnackbarFont()));
-                snackbar.show();
-            }
-            else
-            {
-                Toast.makeText(getContext(), getResources().getString(R.string.al_oldest), Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        }
-        else if(id == R.id.settings)
-        {
-            Intent intent = new Intent(getContext(), SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void setupActionBar()

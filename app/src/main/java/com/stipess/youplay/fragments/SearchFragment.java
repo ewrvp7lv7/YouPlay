@@ -124,7 +124,6 @@ public class SearchFragment extends BaseFragment implements OnMusicSelected, OnS
         this.context = getContext();
         musicList = new ArrayList<>();
         // ako budemo dodovali iteme u toolbar potrebno nam je ovo.
-        setHasOptionsMenu(true);
 
         internet     = view.findViewById(R.id.internet_connection);
         recyclerView = view.findViewById(R.id.recycler_view);

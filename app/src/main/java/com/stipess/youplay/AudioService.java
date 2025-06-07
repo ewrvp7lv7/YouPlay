@@ -243,8 +243,12 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 
         registerReceiver(outputListener, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
         if (connectivityManager != null) {
-            NetworkRequest req = new NetworkRequest.Builder().build();
-            connectivityManager.registerNetworkCallback(req, networkStateCallback);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                connectivityManager.registerDefaultNetworkCallback(networkStateCallback);
+            } else {
+                NetworkRequest req = new NetworkRequest.Builder().build();
+                connectivityManager.registerNetworkCallback(req, networkStateCallback);
+            }
         }
 
         startForegroundService();

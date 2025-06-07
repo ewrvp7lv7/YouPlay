@@ -133,9 +133,9 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
         history      = view.findViewById(R.id.empty_history);
         ConstraintLayout layout = view.findViewById(R.id.history_container);
 
-        layout.setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
+        layout.setBackgroundColor(ContextCompat.getColor(requireContext(), ThemeManager.getTheme()));
 
-        recyclerView.setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
+        recyclerView.setBackgroundColor(ContextCompat.getColor(requireContext(), ThemeManager.getTheme()));
 
         addToPlaylist.setOnClickListener(this);
         addToQ.setOnClickListener(this);
@@ -546,7 +546,7 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
 
     private void checkIfEmpty()
     {
-        history.setTextColor(getResources().getColor(ThemeManager.getFontTheme()));
+        history.setTextColor(ContextCompat.getColor(requireContext(), ThemeManager.getFontTheme()));
         if(musicList.size() > 0)
             history.setVisibility(View.GONE);
         else

@@ -167,7 +167,11 @@ public class Music implements Parcelable {
         duration = in.readString();
         id = in.readString();
         views = in.readString();
-        image = in.readParcelable(Bitmap.class.getClassLoader());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            image = in.readParcelable(Bitmap.class.getClassLoader(), Bitmap.class);
+        } else {
+            image = in.readParcelable(Bitmap.class.getClassLoader());
+        }
         url = in.readString();
         path = in.readString();
         downloaded = in.readInt();

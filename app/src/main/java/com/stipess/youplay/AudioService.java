@@ -496,12 +496,20 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
     {
         if(intent != null)
         {
-            if(intent.getParcelableExtra(SONG) != null && !audioPlayer.isStream())
+            if(intent.hasExtra(SONG) && !audioPlayer.isStream())
             {
-                music = intent.getParcelableExtra(SONG);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    music = intent.getParcelableExtra(SONG, Music.class);
+                else
+                    music = intent.getParcelableExtra(SONG);
             }
-            else if(audioPlayer.isStream() && intent.getParcelableExtra(SONG) != null)
-                station = intent.getParcelableExtra(SONG);
+            else if(audioPlayer.isStream() && intent.hasExtra(SONG))
+            {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    station = intent.getParcelableExtra(SONG, Station.class);
+                else
+                    station = intent.getParcelableExtra(SONG);
+            }
 
 
             switch (intent.getIntExtra(ACTION,0))

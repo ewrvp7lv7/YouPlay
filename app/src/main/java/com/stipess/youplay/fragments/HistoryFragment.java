@@ -185,14 +185,8 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setRetainInstance(true);
-    }
-
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setupActionBar();
     }
 

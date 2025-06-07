@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.stipess.youplay.Ilisteners.OnThemeChanged;
 import com.stipess.youplay.fragments.SettingsFragment;
@@ -53,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity implements OnThemeChange
         SettingsFragment fragment = new SettingsFragment();
         fragment.setListener(this);
 
-        toolbar.setTitleTextColor(getResources().getColor(ThemeManager.getFontTheme()));
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, ThemeManager.getFontTheme()));
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment)

@@ -142,9 +142,9 @@ public class PlaylistTableFragment extends BaseFragment implements OnMusicSelect
         super.onResume();
 
         if(getView() != null)
-            getView().setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
+            getView().setBackgroundColor(ContextCompat.getColor(requireContext(), ThemeManager.getTheme()));
 
-        dividerItemDecoration.setDrawable(getActivity().getResources().getDrawable(ThemeManager.getDividerColor()));
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireContext(), ThemeManager.getDividerColor()));
         recyclerView.removeItemDecoration(dividerItemDecoration);
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
@@ -163,14 +163,14 @@ public class PlaylistTableFragment extends BaseFragment implements OnMusicSelect
             Toast.makeText(getContext(), getString(R.string.playlist_error, title), Toast.LENGTH_SHORT).show();
         }
 
-        recyclerView.setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
-        view.setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
+        recyclerView.setBackgroundColor(ContextCompat.getColor(requireContext(), ThemeManager.getTheme()));
+        view.setBackgroundColor(ContextCompat.getColor(requireContext(), ThemeManager.getTheme()));
 
         videoAdapter = new VideoAdapter(getContext(), R.layout.play_adapter_view, data, false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), linearLayoutManager.getOrientation());
-        dividerItemDecoration.setDrawable(getActivity().getResources().getDrawable(ThemeManager.getDividerColor()));
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireContext(), ThemeManager.getDividerColor()));
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setAdapter(videoAdapter);
         videoAdapter.setListener(this);

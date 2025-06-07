@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.snackbar.Snackbar;
@@ -140,7 +141,7 @@ public class RadioFragment extends BaseFragment implements OnRadioSelected, View
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), linearLayoutManager.getOrientation());
-        dividerItemDecoration.setDrawable(getActivity().getResources().getDrawable(ThemeManager.getDividerColor()));
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireContext(), ThemeManager.getDividerColor()));
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.getRecycledViewPool().clear();
         actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
@@ -155,17 +156,12 @@ public class RadioFragment extends BaseFragment implements OnRadioSelected, View
         setupActionBar();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setRetainInstance(true);
-    }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        dividerItemDecoration.setDrawable(getActivity().getResources().getDrawable(ThemeManager.getDividerColor()));
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireContext(), ThemeManager.getDividerColor()));
         recyclerView.removeItemDecoration(dividerItemDecoration);
         recyclerView.addItemDecoration(dividerItemDecoration);
 

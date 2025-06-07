@@ -219,7 +219,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         int streamVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         if(streamVolume == 0)
-            volume.setForeground(getResources().getDrawable(R.drawable.volume_mute));
+            volume.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.volume_mute));
 
         ConstraintLayout playFragment = view.findViewById(R.id.play_fragment);
         playFragment.setOnClickListener(this);
@@ -235,7 +235,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             if(audioService != null && audioPlayer.getMusicList() != null && !audioPlayer.isStream())
             {
                 if(audioPlayer.isShuffled())
-                    shuffle.setForeground(getResources().getDrawable(R.drawable.shuffle_pressed));
+                    shuffle.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.shuffle_pressed));
 
                 tempList.clear();
                 if(audioPlayer.getCurrentlyPlaying() != null)
@@ -495,9 +495,8 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setRetainInstance(true);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         db = YouPlayDatabase.getInstance();
     }
 

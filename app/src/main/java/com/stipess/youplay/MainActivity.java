@@ -11,16 +11,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import android.os.IBinder;
 import android.os.StrictMode;
 import androidx.preference.PreferenceManager;
@@ -69,6 +62,7 @@ import com.stipess.youplay.radio.Station;
 import com.stipess.youplay.utils.FileManager;
 import com.stipess.youplay.utils.ThemeManager;
 import com.stipess.youplay.utils.Utils;
+import com.stipess.youplay.utils.NetworkUtils;
 import com.stipess.youplay.web.YouPlayWeb;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
@@ -708,43 +702,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
     }
 
     private boolean internetConnection() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager == null) return false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            final AtomicBoolean connected = new AtomicBoolean(false);
-            final CountDownLatch latch = new CountDownLatch(1);
-            ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback() {
-                @Override
-                public void onAvailable(@NonNull Network network) {
-                    connected.set(true);
-                    latch.countDown();
-                }
-
-                @Override
-                public void onUnavailable() {
-                    connected.set(false);
-                    latch.countDown();
-                }
-            };
-            connectivityManager.registerDefaultNetworkCallback(callback);
-            try {
-                latch.await(100, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException ignored) {}
-            connectivityManager.unregisterNetworkCallback(callback);
-            return connected.get();
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Network network = connectivityManager.getActiveNetwork();
-            if (network == null) return false;
-            NetworkCapabilities caps = connectivityManager.getNetworkCapabilities(network);
-            return caps != null && (caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-                    || caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                    || caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
-                    || caps.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH));
-        } else {
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        }
+        return NetworkUtils.hasInternet(this);
     }
 
     private void putCurrentIcon() {

@@ -1,7 +1,9 @@
 package com.stipess.youplay;
 
 import android.Manifest;
-import android.app.ProgressDialog;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import android.widget.ProgressBar;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -498,7 +500,10 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
     {
         FileManager.getDownloadFolder().delete();
         BaseDownloadTask task = FileDownloader.getImpl().create(link).setPath(FileManager.getDownloadFolder().getPath());
-        final ProgressDialog downloadDialog = new ProgressDialog(MainActivity.this);
+        final AlertDialog downloadDialog = new MaterialAlertDialogBuilder(this)
+                .setView(new ProgressBar(this))
+                .setCancelable(false)
+                .create();
         FileDownloadQueueSet queueSet = new FileDownloadQueueSet(new FileDownloadListener() {
             @Override
             protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
@@ -507,20 +512,10 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
 
             @Override
             protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                double divide = (double) soFarBytes / totalBytes;
-                double math = (double) downloadDialog.getMax() * divide;
-                downloadDialog.setProgress((int) math);
             }
 
             @Override
             protected void started(BaseDownloadTask task) {
-                downloadDialog.setMessage(getApplicationContext().getString(R.string.downloading));
-                downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                downloadDialog.setProgress(0);
-                downloadDialog.setMax(100);
-                downloadDialog.setCancelable(false);
-                downloadDialog.setProgressNumberFormat(null);
-                downloadDialog.dismiss();
                 downloadDialog.show();
             }
 
@@ -561,19 +556,6 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
 
 //        DownloadTask.Builder task = new DownloadTask.Builder(link, FileManager.getDownloadFolder());
 //        DownloadTask downloadTask = task.build();
-//        final ProgressDialog downloadDialog = new ProgressDialog(MainActivity.this);
-//        downloadTask.enqueue(new DownloadListener1() {
-//            @Override
-//            public void taskStart(@NonNull DownloadTask task, @NonNull Listener1Assist.Listener1Model model) {
-//
-//                downloadDialog.setMessage(getApplicationContext().getString(R.string.downloading));
-//                downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//                downloadDialog.setProgress(0);
-//                downloadDialog.setMax(100);
-//                downloadDialog.setCancelable(false);
-//                downloadDialog.setProgressNumberFormat(null);
-//                downloadDialog.dismiss();
-//                downloadDialog.show();
 //            }
 //
 //            @Override

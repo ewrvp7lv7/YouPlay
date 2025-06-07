@@ -2,7 +2,8 @@ package com.stipess.youplay.music;
 
 import android.graphics.Bitmap;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by Stjepan Stjepanovic on 27.11.2017..
@@ -24,7 +25,7 @@ import java.io.Serializable;
  * along with YouPlay.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class Music implements Serializable{
+public class Music implements Parcelable {
 
     private String title;
     private String author;
@@ -159,5 +160,51 @@ public class Music implements Serializable{
     {
         this.path = path;
     }
+
+    protected Music(Parcel in) {
+        title = in.readString();
+        author = in.readString();
+        duration = in.readString();
+        id = in.readString();
+        views = in.readString();
+        image = in.readParcelable(Bitmap.class.getClassLoader());
+        url = in.readString();
+        path = in.readString();
+        downloaded = in.readInt();
+        timeAgo = in.readString();
+        viewsSearch = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(author);
+        dest.writeString(duration);
+        dest.writeString(id);
+        dest.writeString(views);
+        dest.writeParcelable(image, flags);
+        dest.writeString(url);
+        dest.writeString(path);
+        dest.writeInt(downloaded);
+        dest.writeString(timeAgo);
+        dest.writeString(viewsSearch);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Music> CREATOR = new Creator<Music>() {
+        @Override
+        public Music createFromParcel(Parcel in) {
+            return new Music(in);
+        }
+
+        @Override
+        public Music[] newArray(int size) {
+            return new Music[size];
+        }
+    };
 
 }

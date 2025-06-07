@@ -26,19 +26,16 @@ public class RadioBrowser extends Browser
         this.type = type;
     }
 
-    @Override
     protected void onPreExecute()
     {
         if(listener != null)
             listener.preExecute();
     }
 
-    @Override
     public void setListener(Listener listener) {
         this.listener = listener;
     }
 
-    @Override
     protected String doInBackground(String... strings)
     {
         if(type == ListType.COUNTRIES)
@@ -93,7 +90,6 @@ public class RadioBrowser extends Browser
         return null;
     }
 
-    @Override
     protected void onPostExecute(String s)
     {
         if(type == ListType.COUNTRIES && listener != null)

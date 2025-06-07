@@ -28,7 +28,6 @@ public class StationBrowser extends Browser
         this.country = country;
     }
 
-    @Override
     protected void onPreExecute() {
         if(listener != null)
             listener.preExecute();
@@ -38,12 +37,10 @@ public class StationBrowser extends Browser
         return country;
     }
 
-    @Override
     public void setListener(Listener listener) {
         this.listener = listener;
     }
 
-    @Override
     protected String doInBackground(String... strings) {
         if(type == ListType.STATIONS)
         {
@@ -97,7 +94,6 @@ public class StationBrowser extends Browser
         return null;
     }
 
-    @Override
     protected void onPostExecute(String s) {
         if(listener != null)
             listener.getPostExecute(stations);

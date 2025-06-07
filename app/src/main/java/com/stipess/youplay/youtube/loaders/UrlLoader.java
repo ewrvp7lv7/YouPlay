@@ -1,6 +1,7 @@
 package com.stipess.youplay.youtube.loaders;
 
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.stipess.youplay.AudioService;
@@ -17,6 +18,8 @@ import org.schabi.newpipe.extractor.stream.StreamInfoItemsCollector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /*
  * Created by Stjepan Stjepanovic
@@ -37,7 +40,10 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with YouPlay.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class UrlLoader extends AsyncTask<Void,Void,List<String>>
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+public class UrlLoader
 {
     private static final String TAG = UrlLoader.class.getSimpleName();
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0";
@@ -45,6 +51,8 @@ public class UrlLoader extends AsyncTask<Void,Void,List<String>>
 
     private String getYoutubeLink;
     private Listener listener;
+    private final Executor executor = Executors.newSingleThreadExecutor();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private List<Music> musicList = new ArrayList<>();
     private List<Music> checkList = new ArrayList<>();
     private boolean relatedVideos;
@@ -65,8 +73,7 @@ public class UrlLoader extends AsyncTask<Void,Void,List<String>>
         return musicList;
     }
 
-    @Override
-    protected List<String> doInBackground(Void... voids) {
+    private List<String> loadInternal() {
         List<String> data = new ArrayList<>();
         try
         {
@@ -134,8 +141,7 @@ public class UrlLoader extends AsyncTask<Void,Void,List<String>>
         return null;
     }
 
-    @Override
-    protected void onPostExecute(List<String> strings) {
+    private void postResult(List<String> strings) {
         AudioService audioService = AudioService.getInstance();
         if(listener != null && audioService != null && !audioService.isDestroyed())
             listener.postExecute(strings);
@@ -143,5 +149,12 @@ public class UrlLoader extends AsyncTask<Void,Void,List<String>>
 
     public void setListener(Listener listener){
         this.listener = listener;
+    }
+
+    public void load() {
+        executor.execute(() -> {
+            List<String> result = loadInternal();
+            mainHandler.post(() -> postResult(result));
+        });
     }
 }

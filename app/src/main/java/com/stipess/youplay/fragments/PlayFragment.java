@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -1228,7 +1227,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         String getYoutubeLink = YOUTUBELINK + pjesma.getId();
 
         if(urlLoader != null)
-            urlLoader.cancel(true);
+            urlLoader = null;
 
         urlLoader = new UrlLoader(getYoutubeLink, relatedVideos, audioService.getAudioPlayer().getMusicList());
         urlLoader.setListener(new UrlLoader.Listener() {
@@ -1256,13 +1255,13 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                 }
             }
         });
-        urlLoader.execute();
+        urlLoader.load();
     }
 
     private void updateTable(Music pjesma)
     {
         new DatabaseHandler(pjesma, TABLE_NAME, YouPlayDatabase.YOUPLAY_DB, DatabaseHandler.UpdateType.ADD).
-                setDataChangedListener(this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+                setDataChangedListener(this).execute();
     }
 
     @Override

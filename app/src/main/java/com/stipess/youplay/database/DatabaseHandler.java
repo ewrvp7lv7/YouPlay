@@ -1,8 +1,11 @@
 package com.stipess.youplay.database;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import com.stipess.youplay.Ilisteners.OnDataChanged;
 import com.stipess.youplay.music.Music;
@@ -11,8 +14,10 @@ import java.util.ArrayList;
 
 import static com.stipess.youplay.utils.Constants.DOWNLOADED;
 
-public class DatabaseHandler extends AsyncTask<Boolean, Object, Void>
-{
+public class DatabaseHandler {
+
+    private static final Executor EXECUTOR = Executors.newSingleThreadExecutor();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     private String tableName;
     private String databaseName;
@@ -22,14 +27,10 @@ public class DatabaseHandler extends AsyncTask<Boolean, Object, Void>
     private ArrayList<Music> pjesme;
     private OnDataChanged onDataChanged;
 
-    /**
-     * svaki put kad zovemo funkciju iz @YouPlayDatabase klase treba proci kroz ovu funkciju
-     * tako da se nedesi nikakv lag tokom prisupanje baze.
-     * @param booleans /
-     * @return void
-     */
-    @Override
-    protected Void doInBackground(Boolean... booleans) {
+    private volatile boolean cancelled;
+
+    // Executes database work on a background thread
+    private void doInBackground() {
 
         SQLiteDatabase database = null;
         if(databaseName.equals(YouPlayDatabase.PLAYLIST_DB))
@@ -76,31 +77,25 @@ public class DatabaseHandler extends AsyncTask<Boolean, Object, Void>
         }
         if(database != null)
             database.close();
-        return null;
     }
 
-    @Override
-    protected void onProgressUpdate(Object... values)
+    private void onProgressUpdate(Object... values)
     {
         if(onDataChanged != null)
             onDataChanged.deleteProgress((int) values[0], (String) values[1]);
     }
 
-    @Override
-    protected void onPostExecute(Void aVoid)
+    private void onPostExecute()
     {
-        if(isCancelled()) return;
+        if(cancelled) return;
 
         if(onDataChanged != null && type != UpdateType.GET)
             onDataChanged.dataChanged(type, databaseName, pjesma);
         else if(onDataChanged != null)
             onDataChanged.dataChanged(type, pjesme);
-//        else if(onDataChanged != null)
-//            onDataChanged.dataChanged(type, pjesme);
     }
 
-    @Override
-    protected void onPreExecute() {
+    private void onPreExecute() {
 
     }
 
@@ -151,5 +146,21 @@ public class DatabaseHandler extends AsyncTask<Boolean, Object, Void>
         this.type = type;
 
         db = YouPlayDatabase.getInstance();
+    }
+
+    public void execute() {
+        mainHandler.post(this::onPreExecute);
+        EXECUTOR.execute(() -> {
+            doInBackground();
+            mainHandler.post(this::onPostExecute);
+        });
+    }
+
+    private void publishProgress(final Object... values) {
+        mainHandler.post(() -> onProgressUpdate(values));
+    }
+
+    public void cancel() {
+        cancelled = true;
     }
 }

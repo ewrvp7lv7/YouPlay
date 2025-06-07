@@ -1,6 +1,7 @@
 package com.stipess.youplay.web;
 
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import org.json.JSONObject;
 
@@ -27,21 +28,25 @@ import java.net.URL;
  * You should have received a copy of the GNU General Public License
  * along with YouPlay.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class YouPlayWeb extends AsyncTask<Void, Void, String> {
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+public class YouPlayWeb {
 
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36";
     private static String LINK = "https://youplayandroid.com/version/version.json";
     private Listener listener;
     private boolean error = false;
     private Exception e;
+    private final Executor executor = Executors.newSingleThreadExecutor();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public void setListener(Listener listener)
     {
         this.listener = listener;
     }
 
-    @Override
-    protected String doInBackground(Void... voids) {
+    private String loadInternal() {
         try
         {
             URL url = new URL(LINK);
@@ -66,8 +71,7 @@ public class YouPlayWeb extends AsyncTask<Void, Void, String> {
         return null;
     }
 
-    @Override
-    protected void onPostExecute(String version) {
+    private void postResult(String version) {
         if(error)
         {
             listener.onError(e);
@@ -80,5 +84,12 @@ public class YouPlayWeb extends AsyncTask<Void, Void, String> {
         void onConnected(String version);
 
         void onError(Exception e);
+    }
+
+    public void load() {
+        executor.execute(() -> {
+            String result = loadInternal();
+            mainHandler.post(() -> postResult(result));
+        });
     }
 }

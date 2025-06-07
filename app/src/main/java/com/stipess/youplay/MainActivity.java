@@ -426,11 +426,10 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                         tabLayout.getTabAt(3).setIcon(R.drawable.radio);
 
                         searchView.requestFocus();
-//
                         if(imm == null)
                             imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_IMPLICIT);
+                        imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT);
                         break;
 
                 }

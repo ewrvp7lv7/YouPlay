@@ -138,7 +138,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     private PlaylistAdapter adapter;
     private ArrayList<Station> stations;
     private OnItemClicked onItemClicked;
-    // funkcija zadrzava komentare od trenutne pjesme
+    // функция хранит комментарии текущей песни
     private List<CommentsInfoItem> list = new ArrayList<>();
     private UrlLoader urlLoader;
 
@@ -165,7 +165,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     public static Music currentlyPlayingSong;
 
     public PlayFragment() {
-        // Required empty public constructor
+        // Обязательный публичный пустой конструктор
     }
 
     @Override
@@ -188,7 +188,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Создаём разметку для этого фрагмента
         View view = inflater.inflate(R.layout.fragment_play, container, false);
         handler = new Handler();
         play_pause = view.findViewById(R.id.play_pause_layout);
@@ -544,7 +544,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             Log.d(TAG, "Prvi if");
             downloadSong(pjesma, true);
         }
-        // Kad dodamo iz url valid i kad pritisenmo na ne skinutu pjesmu radi samo jedanput.
+        // Когда добавляем из правильного URL и нажимаем на нескачанную песню, выполняется только один раз
         else if(db.ifItemExists(pjesma.getId()) && pjesma.getDownloaded() == 0 && !URLUtil.isValidUrl(pjesma.getPath()))
         {
             Log.d(TAG, "Drugi if " + " path: " + pjesma.getPath());
@@ -616,7 +616,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     public void onLongClick(Music pjesma, View v)
     {
 
-        // Dodati nesto drugo posto koristimo sad swipe da uklonimo pjesmu
+        // Нужно что-то другое, так как теперь для удаления песни используется свайп
 //        if(tempList.size() > 0 && !pjesma.equals(currentlyPlayingSong))
 //        {
 //            int position = tempList.indexOf(pjesma);
@@ -648,7 +648,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         if(position >= 0)
         {
             adapter.notifyItemChanged(lastPost);
-            // tako da mozemo postavit grey BG na trenutnu pjesmu
+            // чтобы можно было установить серый фон на текущую песню
             adapter.notifyItemChanged(position);
         }
 
@@ -673,7 +673,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         {
             Log.d(TAG, "SetCurrent postiion ");
             adapter.notifyItemChanged(audioPlayer.getLastPost());
-            // tako da mozemo postavit grey BG na trenutnu pjesmu
+            // чтобы можно было установить серый фон на текущую песню
             adapter.notifyItemChanged(position);
         }
 
@@ -697,7 +697,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             setCurrent(0);
         else
         {
-            // Posto nece nac currentlyplaying song u dobivenoj listi moramo usporedivat id !
+            // Так как текущая песня может не быть найдена в полученном списке, нужно сравнивать id!
             Log.d(TAG, "queue je true");
             if(currentlyPlayingSong != null)
             {
@@ -735,7 +735,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                 replay();
                 break;
             case R.id.you_shuffle:
-                // Ako korisnik nije izabro pjesmu iz search-a
+                // Если пользователь не выбрал песню из поиска
                 if(currentlyPlayingSong != null &&
                         adapter.getPlay() != PlaylistAdapter.ListType.STATIONS)
                 {
@@ -878,7 +878,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
                         commentAdapter = new CommentAdapter(getContext(), R.layout.comment_adapter_view, list);
                         commentAdapter.setListener(PlayFragment.this);
-                        // ako korisnik ponovno stisne na komentare ucitat ce iz liste umjesto da se ponovno ucitava.
+                        // если пользователь снова нажмёт на комментарии, они будут взяты из списка вместо повторной загрузки
                         if(data.size() > 0) {
                             cache.put(audioPlayer.getCurrentlyPlaying().getId(), data);
                             isMoreComments = true;

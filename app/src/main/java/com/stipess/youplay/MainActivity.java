@@ -110,10 +110,12 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
     private InputMethodManager imm;
     private AudioPlayer audioPlayer;
     private boolean pre;
-    // da nam otvori history prilikom prvom pokretanju
+    // чтобы при первом запуске открывалась история
     private boolean firstTime = true;
     /*
-    kada je wifi ugasen i korisnik stisne strelicu, visina viewa ce se postavit , tada reklama ce offsetat recylcerview preko kontroli (next,prev,playpause).
+     * Когда Wi-Fi выключен и пользователь нажимает стрелку, высота
+     * представления изменяется, и реклама смещает RecyclerView над
+     * элементами управления (next, prev, play/pause).
      */
     public static int size = -1;
     public static boolean adLoaded;
@@ -435,7 +437,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
         {
             initFiles();
 
-            // Pogledaj dali ima nova verzija YouPlay-a
+            // Проверь, доступна ли новая версия YouPlay
             YouPlayWeb web = new YouPlayWeb();
             web.setListener(new YouPlayWeb.Listener() {
                 @Override
@@ -633,8 +635,8 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
         } catch (Exception e) {
             Log.d("Exception", e.getMessage());
             Toast.makeText(this, getResources().getString(R.string.no_space), Toast.LENGTH_SHORT).show();
-            // Zna se desit kada se uklone permisije u postavkama da nezeli uci u app
-            // sve dok se ne "force stop" aplikacija pa ovdje radimo rucno
+            // Иногда после удаления разрешений в настройках приложение отказывается запускаться
+            // пока его не "остановить принудительно", поэтому здесь завершаем процесс вручную
             int pid = android.os.Process.myPid();
             android.os.Process.killProcess(pid);
             finishAffinity();
@@ -875,7 +877,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
             defaultPlaylistFragment.playlistFragment.playlistTableFragment.refreshAdapter();
     }
 
-    // koristiti Music#getPath
+    // использовать Music#getPath
     @Override
     public void setMusic(Music pjesma) {
         Intent intent = new Intent(this, AudioService.class);
@@ -885,7 +887,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
         startService(intent);
     }
 
-    // funkcija callback se poziva klikom na notifikaciju.
+    // функция обратного вызова вызывается при нажатии на уведомление
     @Override
     public void callback(String callback) {
         Log.d(TAG, callback);
@@ -910,7 +912,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
         }
     }
 
-    // Kada se napravi lista u playlist fragmenut ova se funkcija zove.
+    // Эта функция вызывается после создания списка в фрагменте плейлиста
 
     @Override
     public void onThemeChanged()

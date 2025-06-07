@@ -1,10 +1,10 @@
 # YouPlay
-**An open-source YouTube audio & radio player for the Android.**
+**An open-source YouTube audio & radio player for Android.**
 
 [![IO shield](https://img.shields.io/github/v/release/Stipess1/YouPlay)](https://github.com/Stipess1/YouPlay/releases) [![IO shield](https://img.shields.io/github/license/Stipess1/YouPlay)](https://www.gnu.org/licenses/gpl.html)
 
 ## Description
-YouTube client for playing music in background. Application reproduces only audio stream without video, which significanly reduces network load. Uses [NewPipeExtractor](https://github.com/TeamNewPipe/NewPipeExtractor) for extracting information from YouTube.
+YouTube client for playing music in background. Application reproduces only audio stream without video, which significantly reduces network load. Uses [NewPipeExtractor](https://github.com/TeamNewPipe/NewPipeExtractor) for extracting information from YouTube.
 
 ## Features
 * Search songs
@@ -20,7 +20,7 @@ YouTube client for playing music in background. Application reproduces only audi
 More features will be added in the near future.
 
 ## Requirements
-Android 4.4 (KitKat) or later. For devs/techies, that means an API level 19 or greater.
+Minimum Android version is 4.4 KitKat (API 19). The project targets the latest Android release (API 35) while maintaining backward compatibility.
 
 ## License
 [![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)](http://www.gnu.org/licenses/gpl-3.0.en.html)

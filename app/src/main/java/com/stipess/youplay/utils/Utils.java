@@ -146,6 +146,7 @@ public class Utils {
      * This method uses reflection for newer APIs to keep the project
      * compatible with older Android SDKs.
      */
+    @SuppressWarnings("deprecation")
     public static void setSystemBarsColor(Window window, int color) {
         if (window == null) return;
 

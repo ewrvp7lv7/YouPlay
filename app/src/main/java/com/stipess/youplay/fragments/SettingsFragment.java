@@ -92,8 +92,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         Window window = getActivity().getWindow();
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && window != null) {
-
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
 

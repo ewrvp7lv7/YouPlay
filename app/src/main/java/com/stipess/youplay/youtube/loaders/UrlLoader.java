@@ -83,11 +83,37 @@ public class UrlLoader
             StreamInfo streamInfo = StreamInfo.getInfo(service, getYoutubeLink);
 
             List<AudioStream> audioStreams = streamInfo.getAudioStreams();
-            List<InfoItem> relatedVideos = streamInfo.getRelatedStreams();
+            List<InfoItem> relatedVideos;
+            try {
+                java.lang.reflect.Method m = streamInfo.getClass().getMethod("getRelatedItems");
+                Object obj = m.invoke(streamInfo);
+                relatedVideos = obj instanceof List ? (List<InfoItem>) obj : new ArrayList<>();
+            } catch (Exception ignored) {
+                try {
+                    java.lang.reflect.Method m = streamInfo.getClass().getMethod("getRelatedStreams");
+                    Object obj = m.invoke(streamInfo);
+                    relatedVideos = obj instanceof List ? (List<InfoItem>) obj : new ArrayList<>();
+                } catch (Exception e) {
+                    relatedVideos = new ArrayList<>();
+                }
+            }
 
             data.add(Utils.getThumbnailUrl(streamInfo));
-            if(!audioStreams.isEmpty())
-                data.add(audioStreams.get(0).getUrl());
+            if(!audioStreams.isEmpty()) {
+                try {
+                    java.lang.reflect.Method m = audioStreams.get(0).getClass().getMethod("getUrl");
+                    Object url = m.invoke(audioStreams.get(0));
+                    if (url != null) data.add(url.toString());
+                } catch (Exception e) {
+                    try {
+                        java.lang.reflect.Method m = audioStreams.get(0).getClass().getMethod("getContent");
+                        Object url = m.invoke(audioStreams.get(0));
+                        if (url != null) data.add(url.toString());
+                    } catch (Exception ex) {
+                        // ignore when not available
+                    }
+                }
+            }
 
             Log.d(TAG, "Extracted");
 

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.core.os.ParcelCompat;
 
 /**
  * Created by Stjepan Stjepanovic on 27.11.2017..
@@ -171,7 +172,11 @@ public class Music implements Parcelable {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             image = in.readParcelable(Bitmap.class.getClassLoader(), Bitmap.class);
         } else {
-            image = in.readParcelable(Bitmap.class.getClassLoader());
+            image = androidx.core.os.ParcelCompat.readParcelable(
+                    in,
+                    Bitmap.class.getClassLoader(),
+                    Bitmap.class
+            );
         }
         url = in.readString();
         path = in.readString();

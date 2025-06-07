@@ -38,12 +38,14 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentStateAdapter;
 import androidx.activity.OnBackPressedCallback;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.FirebaseApp;
 import com.stipess.youplay.Ilisteners.OnItemClicked;
 import com.stipess.youplay.Ilisteners.OnThemeChanged;
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
     private AudioService audioService;
     private boolean bound = false;
     private boolean isRunning = false;
-    public ViewPager pager;
+    public ViewPager2 pager;
     private YouPlayDatabase db;
     private InputMethodManager imm;
     private AudioPlayer audioPlayer;
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
             R.drawable.music,
             R.drawable.history,
             R.drawable.playlist,
+            R.drawable.radio,
             R.drawable.search
     };
 
@@ -240,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
             }
         };
 
-        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(this);
         pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
         pager.setOffscreenPageLimit(5);
@@ -250,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
 
 
         tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(pager);
+        new TabLayoutMediator(tabLayout, pager, (tab, position) -> tab.setIcon(imageId[position])).attach();
         tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_black));
         registerListeners();
 
@@ -292,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
 
     public void registerListeners()
     {
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -980,15 +983,16 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
 
     }
 
-    private class SectionsPagerAdapter extends FragmentPagerAdapter
+    private class SectionsPagerAdapter extends FragmentStateAdapter
     {
-        private SectionsPagerAdapter(FragmentManager fm)
+        private SectionsPagerAdapter(FragmentActivity activity)
         {
-            super(fm);
+            super(activity);
         }
 
+        @NonNull
         @Override
-        public Fragment getItem(int position)
+        public Fragment createFragment(int position)
         {
             switch (position)
             {
@@ -1003,20 +1007,13 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                 case 4:
                     return searchFragment;
             }
-            return null;
+            return playFragment;
         }
 
-
         @Override
-        public int getCount()
+        public int getItemCount()
         {
             return 5;
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return null;
         }
     }
 

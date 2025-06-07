@@ -22,6 +22,8 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.RequestBuilder;
+import android.graphics.drawable.Drawable;
 import com.stipess.youplay.Ilisteners.OnMusicSelected;
 import com.stipess.youplay.Ilisteners.OnPlaylistSelected;
 import com.stipess.youplay.Ilisteners.OnRadioSelected;
@@ -312,9 +314,20 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
             holder.duration.setText(pjesma.getDuration());
 
-            if(FileManager.getPictureFile(pjesma.getId()).exists())
-                Glide.with(context).load(FileManager.getPictureFile(pjesma.getId())).thumbnail(0.1f).apply(new RequestOptions()
-                        .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(false).override(120, 90).dontAnimate()).into(holder.image);
+            if(FileManager.getPictureFile(pjesma.getId()).exists()) {
+                RequestBuilder<Drawable> thumbRequest = Glide.with(context)
+                        .load(FileManager.getPictureFile(pjesma.getId()))
+                        .sizeMultiplier(0.1f);
+                Glide.with(context)
+                        .load(FileManager.getPictureFile(pjesma.getId()))
+                        .thumbnail(thumbRequest)
+                        .apply(new RequestOptions()
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .skipMemoryCache(false)
+                                .override(120, 90)
+                                .dontAnimate())
+                        .into(holder.image);
+            }
             else
                 Glide.with(context).load(pjesma.getUrlImage()).apply(new RequestOptions().skipMemoryCache(true)).into(holder.image);
 

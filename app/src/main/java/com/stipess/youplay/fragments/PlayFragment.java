@@ -414,10 +414,10 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         ((MainActivity)getActivity()).pager.setCurrentItem(0);
 
         if(audioService.getAudioPlayer().getPlayWhenReady())
-            play_pause.setForeground(getResources().getDrawable(R.drawable.pause));
+            play_pause.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.pause));
 
         else
-            play_pause.setForeground(getResources().getDrawable(R.drawable.play));
+            play_pause.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.play));
 
 
         AudioPlayer.Replay replay = audioPlayer.getReplay();
@@ -461,12 +461,12 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         ((MainActivity)getActivity()).pager.setCurrentItem(0);
 
         if(audioService.getAudioPlayer().isAlarm())
-            alarm.setForeground(getResources().getDrawable(R.drawable.alarm_add));
+            alarm.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.alarm_add));
 
         if(audioService.getAudioPlayer().getPlayWhenReady())
-            play_pause.setForeground(getResources().getDrawable(R.drawable.pause));
+            play_pause.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.pause));
         else
-            play_pause.setForeground(getResources().getDrawable(R.drawable.play));
+            play_pause.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.play));
 
         durationTimeCurrent.setText(convertDuration(audioService.getAudioPlayer().getCurrentPosition()));
         playCycle();
@@ -483,14 +483,14 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         if(code == KeyEvent.KEYCODE_VOLUME_UP)
         {
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
-            this.volume.setForeground(getResources().getDrawable(R.drawable.volume_up));
+            this.volume.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.volume_up));
         }
         else
         {
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
             int volume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
             if(volume == 0)
-                this.volume.setForeground(getResources().getDrawable(R.drawable.volume_mute));
+                this.volume.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.volume_mute));
         }
     }
 
@@ -742,7 +742,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                         tempList.clear();
                         tempList.addAll(audioPlayer.getMusicList());
                         adapter.notifyDataSetChanged();
-                        shuffle.setForeground(getResources().getDrawable(R.drawable.shuffle_pressed));
+                        shuffle.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.shuffle_pressed));
                     }
                     else
                     {
@@ -750,7 +750,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                         tempList.clear();
                         tempList.addAll(audioPlayer.getMusicList());
                         adapter.notifyDataSetChanged();
-                        this.shuffle.setForeground(getResources().getDrawable(R.drawable.shuffle));
+                        this.shuffle.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.shuffle));
                         setCurrent(audioPlayer.getPosition());
                     }
                 }
@@ -772,7 +772,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                 if(audioService.getAudioPlayer().getAlarm() > 0 && audioService.getAudioPlayer().isAlarm())
                 {
                     audioService.getAudioPlayer().setAlarm(false);
-                    alarm.setForeground(getResources().getDrawable(R.drawable.alarm_add));
+                    alarm.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.alarm_add));
                     Toast.makeText(getContext(), getResources().getString(R.string.alarm_disabled), Toast.LENGTH_SHORT).show();
                 }
                 else
@@ -789,13 +789,13 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
         if(isCommentsClick) {
             isCommentsClick = false;
-            comments.setForeground(getResources().getDrawable(R.drawable.ic_comment));
+            comments.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.ic_comment));
         }
         suggestionBar.setVisibility(View.GONE);
         commentError.setVisibility(View.GONE);
         commentResult.setVisibility(View.GONE);
         isSuggestionClick = true;
-        playlist.setForeground(getResources().getDrawable(R.drawable.ic_playlist_pressed));
+        playlist.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.ic_playlist_pressed));
         recyclerView.swapAdapter(null, true);
         recyclerView.setAdapter(adapter);
 
@@ -818,10 +818,10 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
         if(isSuggestionClick) {
             isSuggestionClick = false;
-            playlist.setForeground(getResources().getDrawable(R.drawable.ic_playlist));
+            playlist.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.ic_playlist));
         }
         isCommentsClick = true;
-        comments.setForeground(getResources().getDrawable(R.drawable.ic_comment_pressed));
+        comments.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.ic_comment_pressed));
         recyclerView.swapAdapter(null, true);
 
         if(audioPlayer.getCurrentlyPlaying() != null ) {
@@ -944,7 +944,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                     audioPlayer.setAlarm(numberPicker.getValue());
                     audioPlayer.setAlarm(true);
 //                    audioService.setAlarm(true);
-                    alarm.setForeground(getResources().getDrawable(R.drawable.alarm_set));
+                    alarm.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.alarm_set));
                     dialog.dismiss();
                     Toast.makeText(getContext(), getResources().getString(R.string.alarm_set), Toast.LENGTH_SHORT).show();
                 }
@@ -963,16 +963,16 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     {
         if(audioPlayer.getReplay() == AudioPlayer.Replay.REPLAY_ONE)
         {
-            replayF.setForeground(getResources().getDrawable(R.drawable.replay));
+            replayF.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.replay));
             audioPlayer.setReplay(AudioPlayer.Replay.REPLAY_OFF);
         }
         else if (audioPlayer.getReplay() == AudioPlayer.Replay.REPLAY_ALL)
         {
-            replayF.setForeground(getResources().getDrawable(R.drawable.replay_all));
+            replayF.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.replay_all));
             audioPlayer.setReplay(AudioPlayer.Replay.REPLAY_ONE);
         }
         else {
-            replayF.setForeground(getResources().getDrawable(R.drawable.replay_pressed));
+            replayF.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.replay_pressed));
             audioPlayer.setReplay(AudioPlayer.Replay.REPLAY_ALL);
         }
 
@@ -1077,12 +1077,12 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
     public void setShuffled()
     {
-        this.shuffle.setForeground(getResources().getDrawable(R.drawable.shuffle_pressed));
+        this.shuffle.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.shuffle_pressed));
         audioPlayer.setShuffled(true);
     }
 
     public void setUnshuffled() {
-        this.shuffle.setForeground(getResources().getDrawable(R.drawable.shuffle));
+        this.shuffle.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.shuffle));
         audioPlayer.setShuffled(false);
     }
 
@@ -1106,13 +1106,13 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         {
             audioPlayer.setPlayWhenReady(false);
             if(isAdded())
-                play_pause.setForeground(getResources().getDrawable(R.drawable.play));
+                play_pause.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.play));
         }
         else if(!audioPlayer.getPlayWhenReady() && !update)
         {
             audioPlayer.setPlayWhenReady(true);
             if(isAdded())
-                play_pause.setForeground(getResources().getDrawable(R.drawable.pause));
+                play_pause.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.pause));
             playCycle();
         }
         else
@@ -1129,7 +1129,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         bar.setVisibility(View.VISIBLE);
         seekbar.setProgress(0);
 
-        play_pause.setForeground(getResources().getDrawable(R.drawable.pause));
+        play_pause.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.pause));
         currentlyTitle.setText(pjesma.getName());
 
         if(!pjesma.getIcon().isEmpty())
@@ -1151,12 +1151,12 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
         seekbar.setProgress(0);
         suggestionBar.setVisibility(View.GONE);
-        play_pause.setForeground(getResources().getDrawable(R.drawable.pause));
+        play_pause.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.pause));
         currentlyTitle.setText(pjesma.getTitle());
         durationTime.setText(pjesma.getDuration());
         durationTimeCurrent.setText(R.string.you_temp_time);
         if(!audioPlayer.isShuffled()) {
-            this.shuffle.setForeground(getResources().getDrawable(R.drawable.shuffle));
+            this.shuffle.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.shuffle));
         }
         audioService.playSong(pjesma, null);
     }

@@ -87,12 +87,12 @@ public class UrlLoader
             try {
                 java.lang.reflect.Method m = streamInfo.getClass().getMethod("getRelatedItems");
                 Object obj = m.invoke(streamInfo);
-                relatedVideos = obj instanceof List ? (List<InfoItem>) obj : new ArrayList<>();
+                relatedVideos = toInfoItemList(obj);
             } catch (Exception ignored) {
                 try {
                     java.lang.reflect.Method m = streamInfo.getClass().getMethod("getRelatedStreams");
                     Object obj = m.invoke(streamInfo);
-                    relatedVideos = obj instanceof List ? (List<InfoItem>) obj : new ArrayList<>();
+                    relatedVideos = toInfoItemList(obj);
                 } catch (Exception e) {
                     relatedVideos = new ArrayList<>();
                 }
@@ -168,6 +168,18 @@ public class UrlLoader
             e.printStackTrace();
         }
         return null;
+    }
+
+    private List<InfoItem> toInfoItemList(Object obj) {
+        List<InfoItem> result = new ArrayList<>();
+        if (obj instanceof List<?>) {
+            for (Object item : (List<?>) obj) {
+                if (item instanceof InfoItem) {
+                    result.add((InfoItem) item);
+                }
+            }
+        }
+        return result;
     }
 
     private void postResult(List<String> strings) {

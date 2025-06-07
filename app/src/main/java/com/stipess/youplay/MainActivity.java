@@ -325,7 +325,14 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                             tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.play_fragment_bars));
                             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.black_b));
-                                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    WindowInsetsController controller = window.getInsetsController();
+                                    if (controller != null) {
+                                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
+                                    }
+                                } else {
+                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                                }
                             }
 
                             tabLayout.getTabAt(position).setIcon(R.drawable.music_pressed);
@@ -337,13 +344,21 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                         break;
                     case 1:
                         tabLayout.setVisibility(View.VISIBLE);
-                        tabLayout.setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
+                        tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, ThemeManager.getTheme()));
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             if(pre)
-                                window.setStatusBarColor(getResources().getColor(R.color.toolbar_color));
+                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.toolbar_color));
                             else{
-                                window.setStatusBarColor(getResources().getColor(R.color.adapter_color));
-                                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.adapter_color));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    WindowInsetsController controller = window.getInsetsController();
+                                    if (controller != null) {
+                                        controller.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
+                                    }
+                                } else {
+                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                }
                             }
                         }
 
@@ -356,13 +371,21 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                         break;
                     case 2:
                         tabLayout.setVisibility(View.VISIBLE);
-                        tabLayout.setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
+                        tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, ThemeManager.getTheme()));
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             if(pre)
-                                window.setStatusBarColor(getResources().getColor(R.color.toolbar_color));
+                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.toolbar_color));
                             else{
-                                window.setStatusBarColor(getResources().getColor(R.color.adapter_color));
-                                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.adapter_color));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    WindowInsetsController controller = window.getInsetsController();
+                                    if (controller != null) {
+                                        controller.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
+                                    }
+                                } else {
+                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                }
                             }
                         }
 
@@ -374,13 +397,21 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                         break;
                     case 3:
                         tabLayout.setVisibility(View.VISIBLE);
-                        tabLayout.setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
+                        tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, ThemeManager.getTheme()));
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             if(pre)
-                                window.setStatusBarColor(getResources().getColor(R.color.toolbar_color));
+                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.toolbar_color));
                             else{
-                                window.setStatusBarColor(getResources().getColor(R.color.adapter_color));
-                                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.adapter_color));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    WindowInsetsController controller = window.getInsetsController();
+                                    if (controller != null) {
+                                        controller.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
+                                    }
+                                } else {
+                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                }
                             }
                         }
 
@@ -393,13 +424,21 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                         break;
                     case 4:
                         tabLayout.setVisibility(View.VISIBLE);
-                        tabLayout.setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
+                        tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this, ThemeManager.getTheme()));
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             if(pre)
-                                window.setStatusBarColor(getResources().getColor(R.color.play_fragment_bars));
+                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.play_fragment_bars));
                             else {
-                                window.setStatusBarColor(getResources().getColor(R.color.white));
-                                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.white));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                    WindowInsetsController controller = window.getInsetsController();
+                                    if (controller != null) {
+                                        controller.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
+                                    }
+                                } else {
+                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                                }
                             }
                         }
 
@@ -935,7 +974,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
             searchFragment.refreshFragment();
             radioFragment.setupActionBar();
             radioFragment.refreshFragment();
-            tabLayout.setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
+            tabLayout.setBackgroundColor(ContextCompat.getColor(this, ThemeManager.getTheme()));
         }
 
     }

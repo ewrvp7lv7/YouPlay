@@ -116,7 +116,7 @@ public class PlaylistFragment extends BaseFragment implements OnPlaylistSelected
         recyclerView.removeItemDecoration(dividerItemDecoration);
         recyclerView.addItemDecoration(dividerItemDecoration);
         if(getView() != null)
-            getView().setBackgroundColor(getResources().getColor(ThemeManager.getTheme()));
+            getView().setBackgroundColor(ContextCompat.getColor(requireContext(), ThemeManager.getTheme()));
 
         if(EasyPermissions.hasPermissions(getContext(), MainActivity.PERMISSIONS) && playlists.isEmpty())
         {

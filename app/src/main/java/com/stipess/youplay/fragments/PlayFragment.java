@@ -982,7 +982,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     {
         if(!audioPlayer.isAutoplay())
         {
-            autoPlay.setTextColor(getResources().getColor(R.color.seekbar_progress));
+            autoPlay.setTextColor(ContextCompat.getColor(requireContext(), R.color.seekbar_progress));
             audioPlayer.setAutoplay(true);
             if(mediaCompleted) {
                 audioService.getAudioPlayer().nextSong();
@@ -991,7 +991,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         }
         else
         {
-            autoPlay.setTextColor(getResources().getColor(R.color.suggestions));
+            autoPlay.setTextColor(ContextCompat.getColor(requireContext(), R.color.suggestions));
             audioPlayer.setAutoplay(false);
         }
 

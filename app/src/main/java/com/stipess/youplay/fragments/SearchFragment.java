@@ -143,7 +143,7 @@ public class SearchFragment extends BaseFragment implements OnMusicSelected, OnS
         videoAdapter.setListener(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        dividerItemDecoration = new SeparatorDecoration(getResources().getColor(ThemeManager.getDividerColorSearch()), 2);
+        dividerItemDecoration = new SeparatorDecoration(ContextCompat.getColor(requireContext(), ThemeManager.getDividerColorSearch()), 2);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         Set <String> set = settings.getStringSet(SEARCH_LIST, new HashSet<>());
@@ -458,8 +458,8 @@ public class SearchFragment extends BaseFragment implements OnMusicSelected, OnS
             if(ThemeManager.getDebug().equals("Dark"))
             {
                 EditText searchEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
-                searchEditText.setTextColor(getResources().getColor(R.color.white));
-                searchEditText.setHintTextColor(getResources().getColor(R.color.white));
+                searchEditText.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+                searchEditText.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.white));
             }
         }
     }

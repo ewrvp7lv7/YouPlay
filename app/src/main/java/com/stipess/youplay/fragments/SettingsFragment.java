@@ -101,14 +101,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     WindowCompat.getInsetsController(window, window.getDecorView());
             int color = ContextCompat.getColor(requireContext(),
                     pre ? R.color.toolbar_color : R.color.adapter_color);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                WindowInsetsController controller = window.getInsetsController();
-                if (controller != null) {
-                    controller.setSystemBarsColor(color, /* nonWindowDecor= */ false);
-                }
-            } else {
-                window.setStatusBarColor(color);
-            }
+            Utils.setSystemBarsColor(window, color);
             if(pre) {
                 insetsController.setAppearanceLightStatusBars(false);
             } else {

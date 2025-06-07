@@ -113,4 +113,28 @@ public class Utils {
         return Integer.parseInt(webVersion) > Integer.parseInt(localVersion);
     }
 
+    /**
+     * Try to retrieve the first thumbnail URL from a NewPipeExtractor info item.
+     * This method uses reflection to stay compatible with different library versions.
+     */
+    public static String getThumbnailUrl(Object infoItem) {
+        if (infoItem == null) return null;
+        try {
+            java.lang.reflect.Method m = infoItem.getClass().getMethod("getThumbnailUrl");
+            Object url = m.invoke(infoItem);
+            if (url != null) return url.toString();
+        } catch (Exception ignored) {}
+        try {
+            java.lang.reflect.Method m = infoItem.getClass().getMethod("getThumbnails");
+            Object list = m.invoke(infoItem);
+            if (list instanceof java.util.List && !((java.util.List<?>) list).isEmpty()) {
+                Object thumb = ((java.util.List<?>) list).get(0);
+                java.lang.reflect.Method urlMethod = thumb.getClass().getMethod("getUrl");
+                Object url = urlMethod.invoke(thumb);
+                if (url != null) return url.toString();
+            }
+        } catch (Exception ignored) {}
+        return null;
+    }
+
 }

@@ -720,21 +720,16 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
-            case R.id.play_pause_layout:
-                playPauseSong(true);
-                break;
-            case R.id.you_next:
-                nextSong();
-                break;
-            case R.id.you_previous:
-                previousSong();
-                break;
-            case R.id.replay:
-                replay();
-                break;
-            case R.id.you_shuffle:
+        int id = view.getId();
+        if (id == R.id.play_pause_layout) {
+            playPauseSong(true);
+        } else if (id == R.id.you_next) {
+            nextSong();
+        } else if (id == R.id.you_previous) {
+            previousSong();
+        } else if (id == R.id.replay) {
+            replay();
+        } else if (id == R.id.you_shuffle) {
                 // Ako korisnik nije izabro pjesmu iz search-a
                 if(currentlyPlayingSong != null &&
                         adapter.getPlay() != PlaylistAdapter.ListType.STATIONS)
@@ -760,26 +755,21 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                         setCurrent(audioPlayer.getPosition());
                     }
                 }
-                break;
-            case R.id.play_fragment:
-                if(slided)
-                    slide();
-                break;
-            case R.id.autoplay:
-                autoPlay();
-                break;
-            case R.id.volume:
+        } else if (id == R.id.play_fragment) {
+            if(slided)
+                slide();
+        } else if (id == R.id.autoplay) {
+            autoPlay();
+        } else if (id == R.id.volume) {
                 if(getContext() != null)
                 {
                     AudioManager audio = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
                     audio.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_SAME, AudioManager.FLAG_SHOW_UI);
                 }
-                break;
-            case R.id.add_playlist:
+        } else if (id == R.id.add_playlist) {
                 if(currentlyPlayingSong != null)
                     buildPlaylistDialog(currentlyPlayingSong);
-                break;
-            case R.id.alarm:
+        } else if (id == R.id.alarm) {
                 if(audioService.getAudioPlayer().getAlarm() > 0 && audioService.getAudioPlayer().isAlarm())
                 {
                     audioService.getAudioPlayer().setAlarm(false);
@@ -788,14 +778,10 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                 }
                 else
                     buildAlarmDialog();
-                break;
-            case R.id.suggestions:
+        } else if (id == R.id.suggestions) {
                 onSuggestionClick();
-                break;
-            case R.id.comments:
+        } else if (id == R.id.comments) {
                 onCommentClick(true);
-                break;
-
         }
     }
 

@@ -173,7 +173,7 @@ public class YouPlayDatabase extends SQLiteOpenHelper
     private String getPath(String database)
     {
         Log.d(TAG, "Napravi bazu folder: " + database);
-        if(FileManager.getDatabaseFolder().exists())
+        if(!FileManager.getDatabaseFolder().exists())
             FileManager.getDatabaseFolder().mkdirs();
 
         File base = new File(Environment.getExternalStorageDirectory() + File.separator +

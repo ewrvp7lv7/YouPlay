@@ -102,8 +102,12 @@ dependencies {
 repositories {
     google()
     mavenCentral()
-    maven { url "https://jitpack.io" }
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven {
+        url = uri("https://jitpack.io")
+    }
+    maven {
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+    }
 
 }
 apply plugin: 'com.google.gms.google-services'

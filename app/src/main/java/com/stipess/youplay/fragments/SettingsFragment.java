@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.preference.PreferenceManager;
+import androidx.core.content.ContextCompat;
+import android.view.WindowInsetsController;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;

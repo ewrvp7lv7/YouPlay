@@ -1,30 +1,30 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace 'com.stipess.youplay'
+    namespace = 'com.stipess.youplay'
 
-    compileSdkVersion 35
+    compileSdkVersion = 35
     buildFeatures {
-        buildConfig true
+        buildConfig = true
     }
     lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
+        checkReleaseBuilds = false
+        abortOnError = false
     }
     defaultConfig {
         applicationId "com.stipess.youplay"
-        minSdkVersion 21
-        targetSdkVersion 35
-        versionCode 73
-        versionName "2.2.0"
+        minSdkVersion = 21
+        targetSdkVersion = 35
+        versionCode = 73
+        versionName = "2.2.0"
         buildConfigField 'String', 'YOUPLAY_WEBSITE', '"https://youplayandroid.com"'
-        multiDexEnabled true
+        multiDexEnabled = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
@@ -33,7 +33,7 @@ android {
             }
         }
         debug {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
@@ -43,9 +43,9 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
-        coreLibraryDesugaringEnabled true
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+        coreLibraryDesugaringEnabled = true
     }
     productFlavors {
     }

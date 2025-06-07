@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "com.stipess.youplay"
         minSdkVersion 21
-        targetSdkVersion = 35
+        targetSdkVersion 35
         versionCode = 73
         versionName = "2.2.0"
         buildConfigField 'String', 'YOUPLAY_WEBSITE', '"https://youplayandroid.com"'

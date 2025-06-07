@@ -22,6 +22,13 @@ More features will be added in the near future.
 ## Requirements
 Minimum Android version is 5.0 Lollipop (API 21). The project targets the latest Android release (API 35) while maintaining backward compatibility.
 
+## ExoPlayer migration
+The project now uses the AndroidX Media3 implementation of ExoPlayer. All
+player-related classes were switched from the deprecated
+`com.google.android.exoplayer2` package to their `androidx.media3`
+counterparts.
+This resolves the deprecation warnings shown during compilation.
+
 ## License
 [![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)](http://www.gnu.org/licenses/gpl-3.0.en.html)
 

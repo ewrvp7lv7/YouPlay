@@ -4,19 +4,19 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.extractor.ExtractorsFactory;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
+import androidx.media3.common.C;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.Player;
+import androidx.media3.common.util.Util;
+import androidx.media3.datasource.DefaultDataSource;
+import androidx.media3.exoplayer.DefaultLoadControl;
+import androidx.media3.exoplayer.DefaultRenderersFactory;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.extractor.DefaultExtractorsFactory;
+import androidx.media3.exoplayer.extractor.ExtractorsFactory;
+import androidx.media3.exoplayer.source.MediaSource;
+import androidx.media3.exoplayer.source.ProgressiveMediaSource;
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import com.stipess.youplay.AudioService;
 import com.stipess.youplay.music.Music;
 import com.stipess.youplay.radio.Station;
@@ -116,7 +116,7 @@ public class AudioPlayer implements Player.Listener{
     }
 
     @Override
-    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+    public void onPlaybackStateChanged(int playbackState) {
 
         switch (playbackState) {
 
@@ -242,7 +242,7 @@ public class AudioPlayer implements Player.Listener{
         currentlyPlaying = music;
         currentlyPlayingStation = null;
         Uri uri = Uri.parse(music.getPath());
-        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "YouPlay"));
+        DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context);
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory, extractorsFactory)
                 .createMediaSource(MediaItem.fromUri(uri));
@@ -255,7 +255,7 @@ public class AudioPlayer implements Player.Listener{
         currentlyPlayingStation = station;
         currentlyPlaying = null;
         Uri uri = Uri.parse(station.getUrl());
-        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(context, Util.getUserAgent(context, "YouPlay"));
+        DefaultDataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context);
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory, extractorsFactory)
                 .createMediaSource(MediaItem.fromUri(uri));

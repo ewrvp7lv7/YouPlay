@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import androidx.core.os.HandlerCompat;
 import androidx.preference.PreferenceManager;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
@@ -182,7 +184,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     else
                         ThemeManager.setTheme(ThemeManager.Theme.LIGHT_THEME);
 
-                    Handler handler = new Handler();
+                    Handler handler = HandlerCompat.createAsync(Looper.getMainLooper());
                     Runnable runnable = new Runnable() {
                         @Override
                         public void run() {

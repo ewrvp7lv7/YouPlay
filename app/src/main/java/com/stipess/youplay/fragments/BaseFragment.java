@@ -9,6 +9,8 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import androidx.core.os.HandlerCompat;
 import android.view.View;
 
 import java.util.concurrent.CountDownLatch;
@@ -43,7 +45,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        handler = new Handler();
+        handler = HandlerCompat.createAsync(Looper.getMainLooper());
     }
 
     void setPlayScreen()

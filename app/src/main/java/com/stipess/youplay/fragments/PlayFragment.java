@@ -12,6 +12,8 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
+import androidx.core.os.HandlerCompat;
 import androidx.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
@@ -190,7 +192,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_play, container, false);
-        handler = new Handler();
+        handler = HandlerCompat.createAsync(Looper.getMainLooper());
         play_pause = view.findViewById(R.id.play_pause_layout);
         play_pause.setOnClickListener(this);
         FrameLayout next = view.findViewById(R.id.you_next);

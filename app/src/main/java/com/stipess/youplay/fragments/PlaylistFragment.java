@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import androidx.core.os.HandlerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,7 +165,7 @@ public class PlaylistFragment extends BaseFragment implements OnPlaylistSelected
 
             playlistTitle.requestFocus();
             // bez delay nezeli radit.
-            new Handler().postDelayed(new Runnable() {
+            playlistTitle.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     imm.showSoftInput(playlistTitle, InputMethodManager.SHOW_IMPLICIT);
@@ -296,7 +298,7 @@ public class PlaylistFragment extends BaseFragment implements OnPlaylistSelected
         playlistTableFragment = new PlaylistTableFragment();
         playlistTableFragment.setData(title);
 
-        Handler handler = new Handler();
+        Handler handler = HandlerCompat.createAsync(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

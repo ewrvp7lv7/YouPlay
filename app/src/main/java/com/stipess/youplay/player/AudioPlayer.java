@@ -50,13 +50,13 @@ public class AudioPlayer implements Player.EventListener{
     private AudioService audioService = AudioService.getInstance();
 
     private SimpleExoPlayer exoPlayer;
-    // Lista pjesama
+    // список песен
     private ArrayList<Music> musicList = new ArrayList<>();
-    // Kopija lista pjesama za shuffle
+    // копия списка песен для случайного воспроизведения
     private ArrayList<Music> copyList = new ArrayList<>();
 
     private ArrayList<Music> searchList = new ArrayList<>();
-    // Lista radio postaji
+    // список радиостанций
     private ArrayList<Station> stationList;
 
     private PlayerListener playerState;
@@ -66,17 +66,17 @@ public class AudioPlayer implements Player.EventListener{
     private boolean mediaCompleted = false;
 
     private Replay replay = Replay.REPLAY_OFF;
-    // Pjesma koja trenutno svira
+    // песня, которая сейчас играет
     private Music currentlyPlaying;
 
     private Station currentlyPlayingStation;
-    // Pozicija trenutne pjesme u nizu
+    // позиция текущей песни в списке
     private int position = 0;
-    // Zadnja pjesma koja je svirala
+    // последняя проигранная песня
     private int lastPost = 0;
-    // Koliko ce pjesma svirat prije nego sto se player zaustavi
+    // сколько песня будет играть перед остановкой плеера
     private int alarm = 0;
-    // Dali je alarm postavljen
+    // установлен ли будильник
     private boolean isAlarm = false;
 
     private boolean isStream = false;
@@ -84,24 +84,24 @@ public class AudioPlayer implements Player.EventListener{
     private Context context;
 
     public interface PlayerListener {
-        // kada je player spreman za reprodukciju
+        // когда плеер готов к воспроизведению
         void onReady();
-        // kada player ucitava pjesmu / radio
+        // когда плеер загружает песню или радиостанцию
         void onBuffering();
-        // kada sljedeca pjesma pocne svirat
+        // когда начинается следующая песня
         void onSetSong(Music music);
 
         void onSetStation(Station station);
-        // pjesma koja se treba skinut
+        // песня, которую нужно скачать
         void downloadSong(Music music);
     }
 
     public enum Replay {
-        // Kada je replay off
+        // когда повтор отключён
         REPLAY_OFF,
-        // Replay sve pjesme
+        // повторять все песни
         REPLAY_ALL,
-        // Replay samo pjesmu koja trenutno svira
+        // повторять только текущую песню
         REPLAY_ONE
     }
 

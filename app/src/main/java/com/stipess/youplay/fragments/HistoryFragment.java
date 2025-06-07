@@ -88,8 +88,8 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
 
     private RecyclerView recyclerView;
     public ArrayList<Music> musicList;
-    // kada korisnik pretrezi history putem searcha, uzmi pjesme iz ove liste
-    // posto je musicList filtriran
+    // когда пользователь ищет по истории, берём песни из этого списка
+    // так как musicList отфильтрован
     private ArrayList<Music> tempList;
     public VideoAdapter adapter;
     private OnItemClicked onItemClicked;
@@ -175,9 +175,9 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
 
     @Override
     public void onResume() {
-        // Posto refreshList uzima podatke iz SQL nezelimo svaki put uzet podatke ako nije potrebno
-        // npr. ako udemo u postavke i izadem bit ce manji delay zato sto treba dohvatit sve podatke
-        // iz SQL-a
+        // Поскольку refreshList получает данные из SQL, не стоит каждый раз делать запрос без необходимости
+        // например, если мы заходим в настройки и возвращаемся обратно, задержка будет меньше,
+        // так как не нужно заново получать все данные из SQL
         if(musicList.isEmpty())
             refreshList();
 
@@ -481,7 +481,7 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
         adapter.setListener(this);
         recyclerView.setAdapter(adapter);
 
-        // Da se nevidi "blink" kada stisnemo na pjesmu
+        // Чтобы не было "мигания" при нажатии на песню
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
     }
 

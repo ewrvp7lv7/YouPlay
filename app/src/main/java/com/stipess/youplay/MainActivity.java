@@ -88,6 +88,8 @@ import pub.devrel.easypermissions.PermissionRequest;
  * You should have received a copy of the GNU General Public License
  * along with YouPlay.  If not, see <http://www.gnu.org/licenses/>.
  */
+// Точка входа в приложение указана в AndroidManifest.xml.
+// При запуске пользователю сначала показывается именно эта активность.
 
 public class MainActivity extends AppCompatActivity implements AudioService.ServiceCallback
         , EasyPermissions.PermissionCallbacks, OnThemeChanged, OnItemClicked {
@@ -164,6 +166,8 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
     }
 
     @Override
+    // Метод onCreate() вызывается первым при создании активности
+    // Здесь и начинается выполнение пользовательского кода
     protected void onCreate(Bundle savedInstanceState) {
 
         PreferenceManager.setDefaultValues(this, R.xml.preference, true);

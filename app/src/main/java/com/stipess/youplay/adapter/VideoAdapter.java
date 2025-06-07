@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
@@ -249,7 +250,7 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         viewHolder.info.setVisibility(View.VISIBLE);
                         viewHolder.downloaded.setVisibility(View.VISIBLE);
                         viewHolder.dragDrop.setVisibility(View.GONE);
-                        viewHolder.itemView.setBackgroundColor(context.getResources().getColor(ThemeManager.getUnselectedTheme()));
+                        viewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, ThemeManager.getUnselectedTheme()));
                     }
                     else
                     {
@@ -270,9 +271,9 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         });
 
                         if(selected.contains(list))
-                            viewHolder.itemView.setBackgroundColor(context.getResources().getColor(ThemeManager.getSelectedTheme()));
+                            viewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, ThemeManager.getSelectedTheme()));
                         else
-                            viewHolder.itemView.setBackgroundColor(context.getResources().getColor(ThemeManager.getUnselectedTheme()));
+                            viewHolder.itemView.setBackgroundColor(ContextCompat.getColor(context, ThemeManager.getUnselectedTheme()));
                     }
 
                     viewHolder.info.setOnClickListener(new View.OnClickListener() {

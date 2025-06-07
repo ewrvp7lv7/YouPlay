@@ -40,6 +40,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.activity.OnBackPressedCallback;
 import androidx.viewpager.widget.ViewPager;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
@@ -249,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
 
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);
-        tabLayout.setBackgroundColor(getResources().getColor(R.color.light_black));
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_black));
         registerListeners();
 
     }
@@ -321,9 +322,9 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                             tabLayout.setVisibility(View.GONE);
                         else
                         {
-                            tabLayout.setBackgroundColor(getResources().getColor(R.color.play_fragment_bars));
+                            tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.play_fragment_bars));
                             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                window.setStatusBarColor(getResources().getColor(R.color.black_b));
+                                window.setStatusBarColor(ContextCompat.getColor(this, R.color.black_b));
                                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                             }
 

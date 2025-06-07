@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -286,28 +287,28 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             holder.title.setText(pjesma.getTitle());
             if(this.position != position)
             {
-                holder.title.setTextColor(context.getResources().getColor(R.color.suggestions));
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.black));
+                holder.title.setTextColor(ContextCompat.getColor(context, R.color.suggestions));
+                holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.black));
                 holder.title.setEllipsize(TextUtils.TruncateAt.END);
                 holder.title.setSelected(false);
                 if(pjesma.getDownloaded() == 1)
-                    holder.duration.setTextColor(context.getResources().getColor(R.color.suggestions));
+                    holder.duration.setTextColor(ContextCompat.getColor(context, R.color.suggestions));
                 else
-                    holder.duration.setTextColor(context.getResources().getColor(R.color.grey));
+                    holder.duration.setTextColor(ContextCompat.getColor(context, R.color.grey));
             }
             else
             {
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.lighter_black));
-                holder.title.setTextColor(context.getResources().getColor(R.color.seekbar_progress));
+                holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.lighter_black));
+                holder.title.setTextColor(ContextCompat.getColor(context, R.color.seekbar_progress));
                 holder.title.setEllipsize(TextUtils.TruncateAt.MARQUEE);
                 holder.title.setSelected(true);
                 holder.title.setMarqueeRepeatLimit(-1);
                 holder.title.setSingleLine(true);
-                holder.duration.setTextColor(context.getResources().getColor(R.color.seekbar_progress));
+                holder.duration.setTextColor(ContextCompat.getColor(context, R.color.seekbar_progress));
             }
 
             if(pjesma.getDownloaded() == 0 && !pjesma.equals(PlayFragment.currentlyPlayingSong))
-                holder.title.setTextColor(context.getResources().getColor(R.color.grey));
+                holder.title.setTextColor(ContextCompat.getColor(context, R.color.grey));
 
             holder.duration.setText(pjesma.getDuration());
 
@@ -375,15 +376,15 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
             if(this.position != position)
             {
-                holder.title.setTextColor(context.getResources().getColor(R.color.suggestions));
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.black));
-                holder.duration.setTextColor(context.getResources().getColor(R.color.suggestions));
+                holder.title.setTextColor(ContextCompat.getColor(context, R.color.suggestions));
+                holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.black));
+                holder.duration.setTextColor(ContextCompat.getColor(context, R.color.suggestions));
             }
             else
             {
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.lighter_black));
-                holder.title.setTextColor(context.getResources().getColor(R.color.seekbar_progress));
-                holder.duration.setTextColor(context.getResources().getColor(R.color.seekbar_progress));
+                holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.lighter_black));
+                holder.title.setTextColor(ContextCompat.getColor(context, R.color.seekbar_progress));
+                holder.duration.setTextColor(ContextCompat.getColor(context, R.color.seekbar_progress));
             }
 
             holder.itemView.setTag(station);

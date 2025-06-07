@@ -363,7 +363,8 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         });
         String url = Constants.YOUTUBELINK+audioPlayer.getCurrentlyPlaying().getId();
         CommentsLoader commentsLoader = new CommentsLoader(getContext(), url, page, true);
-        getLoaderManager().restartLoader(77, null, new LoaderManager.LoaderCallbacks<List<CommentsInfoItem>>() {
+        LoaderManager lm = LoaderManager.getInstance(this);
+        lm.restartLoader(77, null, new LoaderManager.LoaderCallbacks<List<CommentsInfoItem>>() {
             @NonNull
             @Override
             public Loader<List<CommentsInfoItem>> onCreateLoader(int id, @Nullable Bundle args) {
@@ -849,7 +850,8 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             String url = Constants.YOUTUBELINK+audioPlayer.getCurrentlyPlaying().getId();
             suggestionBar.setVisibility(View.VISIBLE);
             CommentsLoader commentsLoader = new CommentsLoader(context, url);
-            getLoaderManager().restartLoader(77, null, new LoaderManager.LoaderCallbacks<List<CommentsInfoItem>>() {
+            LoaderManager lm = LoaderManager.getInstance(PlayFragment.this);
+            lm.restartLoader(77, null, new LoaderManager.LoaderCallbacks<List<CommentsInfoItem>>() {
                 @NonNull
                 @Override
                 public Loader<List<CommentsInfoItem>> onCreateLoader(int id, @Nullable Bundle args) {

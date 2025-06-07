@@ -24,7 +24,7 @@ public class SeparatorDecoration extends RecyclerView.ItemDecoration {
         final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) view.getLayoutParams();
 
         // we retrieve the position in the list
-        final int position = params.getViewAdapterPosition();
+        final int position = parent.getChildAdapterPosition(view);
 
         // add space for the separator to the bottom of every view but the last one
         if (position < state.getItemCount()) {
@@ -46,7 +46,7 @@ public class SeparatorDecoration extends RecyclerView.ItemDecoration {
             final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) view.getLayoutParams();
 
             // get the position
-            final int position = params.getViewAdapterPosition();
+            final int position = parent.getChildAdapterPosition(view);
 
             // and finally draw the separator
             if (position < state.getItemCount()) {

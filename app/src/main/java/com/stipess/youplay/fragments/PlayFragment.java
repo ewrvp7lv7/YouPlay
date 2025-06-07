@@ -1018,8 +1018,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             Rect bounds = winMetrics.getBounds();
             heightPixels = bounds.height();
         } else {
-            DisplayMetrics metrics = new DisplayMetrics();
-            wm.getDefaultDisplay().getMetrics(metrics);
+            DisplayMetrics metrics = requireContext().getResources().getDisplayMetrics();
             heightPixels = metrics.heightPixels;
         }
 

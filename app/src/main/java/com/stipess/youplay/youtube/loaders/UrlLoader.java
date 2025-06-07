@@ -15,11 +15,10 @@ import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipe.extractor.stream.AudioStream;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
+import org.schabi.newpipe.extractor.InfoItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /*
  * Created by Stjepan Stjepanovic
@@ -84,7 +83,7 @@ public class UrlLoader
             StreamInfo streamInfo = StreamInfo.getInfo(service, getYoutubeLink);
 
             List<AudioStream> audioStreams = streamInfo.getAudioStreams();
-            List<StreamInfoItem> relatedVideos = streamInfo.getRelatedStreams();
+            List<InfoItem> relatedVideos = streamInfo.getRelatedStreams();
 
             data.add(Utils.getThumbnailUrl(streamInfo));
             if(!audioStreams.isEmpty())
@@ -94,7 +93,11 @@ public class UrlLoader
 
             if(this.relatedVideos) {
 
-                for(StreamInfoItem stream : relatedVideos) {
+                for(InfoItem item : relatedVideos) {
+                    if(!(item instanceof StreamInfoItem)) {
+                        continue;
+                    }
+                    StreamInfoItem stream = (StreamInfoItem) item;
                     Music music = new Music();
                     music.setAuthor(stream.getUploaderName());
                     music.setViews(Utils.convertViewsToString(stream.getViewCount()));

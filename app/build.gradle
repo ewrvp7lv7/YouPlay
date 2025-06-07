@@ -3,8 +3,7 @@ apply plugin: 'com.android.application'
 android {
     namespace 'com.stipess.youplay'
 
-    compileSdkVersion 34
-    buildToolsVersion '34.0.0'
+    compileSdkVersion 35
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -12,16 +11,13 @@ android {
     defaultConfig {
         applicationId "com.stipess.youplay"
         minSdkVersion 19
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 73
         versionName "2.2.0"
         buildConfigField 'String', 'YOUPLAY_WEBSITE', '"https://youplayandroid.com"'
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
-    }
-    dexOptions {
-        javaMaxHeapSize "4g"
     }
     buildTypes {
         release {
@@ -61,16 +57,16 @@ java {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
 
     implementation 'com.liulishuo.filedownloader:library:1.7.7'
-    implementation 'com.google.firebase:firebase-analytics:21.3.0'
+    implementation 'com.google.firebase:firebase-analytics:22.4.0'
 
     implementation 'org.schabi.newpipe:extractor:0.23.3'
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
@@ -84,9 +80,9 @@ dependencies {
 
     implementation 'pub.devrel:easypermissions:3.0.0'
 
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.preference:preference:1.2.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.gms:google-services:4.3.15'

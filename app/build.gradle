@@ -60,7 +60,7 @@ java {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
@@ -75,7 +75,7 @@ dependencies {
     implementation 'com.github.TeamNewPipe.NewPipeExtractor:NewPipeExtractor:v0.24.1'
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'org.jsoup:jsoup:1.17.2'
-    implementation 'com.github.TeamNewPipe:nanojson:1d9e1aea9049fc9f85e68b43ba39fe7be1c1f751'
+    implementation 'com.github.TeamNewPipe:nanojson:1.7-np'
 
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -86,7 +86,7 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.preference:preference:1.2.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.19.1'

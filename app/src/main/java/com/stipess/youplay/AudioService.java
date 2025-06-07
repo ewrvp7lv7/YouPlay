@@ -16,6 +16,7 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Parcelable;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
@@ -114,6 +115,21 @@ public class AudioService extends JobIntentService implements AudioManager.OnAud
     public static AudioService getInstance()
     {
         return instance;
+    }
+
+    /**
+     * Compatibility wrapper for {@link Intent#getParcelableExtra(String)}.
+     * <p>
+     * Starting from Android 13 the method requires the explicit class of the
+     * Parcelable being requested. This helper handles both cases so the calling
+     * code remains the same on all API levels.
+     */
+    @SuppressWarnings("deprecation")
+    private static <T extends Parcelable> T getParcelableExtraCompat(Intent intent, String key, Class<T> type) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return intent.getParcelableExtra(key, type);
+        }
+        return intent.getParcelableExtra(key);
     }
 
     @Override

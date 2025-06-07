@@ -8,9 +8,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build;
 import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -479,12 +482,31 @@ public class SearchFragment extends BaseFragment implements OnMusicSelected, OnS
         {
             ConnectivityManager connectivityManager
                     = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            if(activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting())
-            {
-                animate(internet);
-                internet.setVisibility(View.GONE);
-                return true;
+            if(connectivityManager != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    Network network = connectivityManager.getActiveNetwork();
+                    if (network != null) {
+                        NetworkCapabilities caps = connectivityManager.getNetworkCapabilities(network);
+                        boolean connected = caps != null &&
+                                (caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                                        || caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                                        || caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                                        || caps.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH));
+                        if (connected) {
+                            animate(internet);
+                            internet.setVisibility(View.GONE);
+                            return true;
+                        }
+                    }
+                } else {
+                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                    if(activeNetworkInfo != null && activeNetworkInfo.isConnected())
+                    {
+                        animate(internet);
+                        internet.setVisibility(View.GONE);
+                        return true;
+                    }
+                }
             }
             if(internet.getVisibility() != View.VISIBLE)
             {

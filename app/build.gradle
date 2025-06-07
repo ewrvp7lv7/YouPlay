@@ -101,9 +101,6 @@ repositories {
     jcenter()
     maven { url "https://jitpack.io" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven {
-        url "https://cdn01.static.adfalcon.com/sdk/android/maven"
-    }
     maven { url 'https://s3.amazonaws.com/moat-sdk-builds' }
 
 }

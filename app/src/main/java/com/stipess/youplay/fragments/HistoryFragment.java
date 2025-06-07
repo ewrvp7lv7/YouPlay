@@ -470,7 +470,7 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), linearLayoutManager.getOrientation());
-        dividerItemDecoration.setDrawable(getActivity().getResources().getDrawable(ThemeManager.getDividerColor()));
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireContext(), ThemeManager.getDividerColor()));
         recyclerView.addItemDecoration(dividerItemDecoration);
         adapter.setListener(this);
         recyclerView.setAdapter(adapter);
@@ -499,7 +499,7 @@ public class HistoryFragment extends BaseFragment implements OnMusicSelected,
                 Toast.makeText(getContext(), getResources().getString(R.string.refresh_error), Toast.LENGTH_SHORT).show();
             }
 
-            dividerItemDecoration.setDrawable(getActivity().getResources().getDrawable(ThemeManager.getDividerColor()));
+            dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireContext(), ThemeManager.getDividerColor()));
             recyclerView.removeItemDecoration(dividerItemDecoration);
             recyclerView.addItemDecoration(dividerItemDecoration);
 

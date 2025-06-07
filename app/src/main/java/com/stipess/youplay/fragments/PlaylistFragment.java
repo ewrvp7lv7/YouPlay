@@ -98,7 +98,7 @@ public class PlaylistFragment extends BaseFragment implements OnPlaylistSelected
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), linearLayoutManager.getOrientation());
-        dividerItemDecoration.setDrawable(getActivity().getResources().getDrawable(ThemeManager.getDividerColor()));
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireContext(), ThemeManager.getDividerColor()));
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         return view;
@@ -112,7 +112,7 @@ public class PlaylistFragment extends BaseFragment implements OnPlaylistSelected
     @Override
     public void onResume() {
         super.onResume();
-        dividerItemDecoration.setDrawable(getActivity().getResources().getDrawable(ThemeManager.getDividerColor()));
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireContext(), ThemeManager.getDividerColor()));
         recyclerView.removeItemDecoration(dividerItemDecoration);
         recyclerView.addItemDecoration(dividerItemDecoration);
         if(getView() != null)

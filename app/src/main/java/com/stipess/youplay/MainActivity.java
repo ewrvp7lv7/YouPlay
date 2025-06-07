@@ -18,6 +18,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import android.os.IBinder;
 import android.os.StrictMode;
 import androidx.preference.PreferenceManager;
@@ -732,7 +735,29 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if(connectivityManager == null) return false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            final AtomicBoolean connected = new AtomicBoolean(false);
+            final CountDownLatch latch = new CountDownLatch(1);
+            ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback() {
+                @Override
+                public void onAvailable(@NonNull Network network) {
+                    connected.set(true);
+                    latch.countDown();
+                }
+
+                @Override
+                public void onUnavailable() {
+                    connected.set(false);
+                    latch.countDown();
+                }
+            };
+            connectivityManager.registerDefaultNetworkCallback(callback);
+            try {
+                latch.await(100, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException ignored) {}
+            connectivityManager.unregisterNetworkCallback(callback);
+            return connected.get();
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Network network = connectivityManager.getActiveNetwork();
             if (network == null) return false;
             NetworkCapabilities caps = connectivityManager.getNetworkCapabilities(network);

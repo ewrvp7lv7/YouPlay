@@ -113,7 +113,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
-                        listener.onInfoClicked(holder.getAdapterPosition(), view);
+                        listener.onInfoClicked(holder.getBindingAdapterPosition(), view);
                     }
                 }
             });

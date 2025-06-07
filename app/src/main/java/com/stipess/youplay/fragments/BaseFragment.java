@@ -11,6 +11,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -56,7 +60,29 @@ public abstract class BaseFragment extends Fragment {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null) return false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            final AtomicBoolean connected = new AtomicBoolean(false);
+            final CountDownLatch latch = new CountDownLatch(1);
+            ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback() {
+                @Override
+                public void onAvailable(@NonNull Network network) {
+                    connected.set(true);
+                    latch.countDown();
+                }
+
+                @Override
+                public void onUnavailable() {
+                    connected.set(false);
+                    latch.countDown();
+                }
+            };
+            connectivityManager.registerDefaultNetworkCallback(callback);
+            try {
+                latch.await(100, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException ignored) {}
+            connectivityManager.unregisterNetworkCallback(callback);
+            return connected.get();
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Network network = connectivityManager.getActiveNetwork();
             if (network == null) return false;
             NetworkCapabilities caps = connectivityManager.getNetworkCapabilities(network);

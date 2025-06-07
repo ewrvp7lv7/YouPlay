@@ -434,9 +434,17 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
                 .addAction(drawable, "Play-Pause", play_pause_btn)
                 .addAction(R.drawable.next , "next", next_btn)
                 .addAction(R.drawable.cancel, "cancel", cancel_btn)
-                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSessionCompat.getSessionToken()).setShowActionsInCompactView(0,1,2))
                 .setOngoing(true)
                 .setShowWhen(false);
+
+        androidx.media.app.NotificationCompat.MediaStyle style = new androidx.media.app.NotificationCompat.MediaStyle();
+        try {
+            style.getClass().getMethod("setMediaSession", MediaSessionCompat.Token.class)
+                    .invoke(style, mediaSessionCompat.getSessionToken());
+        } catch (Exception ignored) {
+        }
+        style.setShowActionsInCompactView(0,1,2);
+        builder.setStyle(style);
         if(id.equals("5385"))
             builder.setChannelId(id);
 

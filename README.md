@@ -20,7 +20,7 @@ YouTube client for playing music in background. Application reproduces only audi
 More features will be added in the near future.
 
 ## Requirements
-Minimum Android version is 4.4 KitKat (API 19). The project targets the latest Android release (API 35) while maintaining backward compatibility.
+Minimum Android version is 5.0 Lollipop (API 21). The project targets the latest Android release (API 35) while maintaining backward compatibility.
 
 ## License
 [![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)](http://www.gnu.org/licenses/gpl-3.0.en.html)

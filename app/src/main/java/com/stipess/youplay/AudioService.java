@@ -32,6 +32,7 @@ import android.widget.RemoteViews;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.IntentCompat;
 import androidx.core.content.ContextCompat;
 import androidx.media.session.MediaButtonReceiver;
 import android.os.Parcelable;
@@ -530,11 +531,10 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
     }
 
     private <T extends Parcelable> T getParcelable(Intent intent, String key, Class<T> clazz) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             return intent.getParcelableExtra(key, clazz);
-        else
-            //noinspection deprecation
-            return intent.getParcelableExtra(key);
+        }
+        return IntentCompat.getParcelableExtra(intent, key);
     }
 
 

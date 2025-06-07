@@ -41,6 +41,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -422,21 +423,21 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         AudioPlayer.Replay replay = audioPlayer.getReplay();
 
         if(replay == AudioPlayer.Replay.REPLAY_ALL)
-            replayF.setForeground(getResources().getDrawable(R.drawable.replay_pressed));
+            replayF.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.replay_pressed));
         else if(replay == AudioPlayer.Replay.REPLAY_ONE)
-            replayF.setForeground(getResources().getDrawable(R.drawable.replay_all));
+            replayF.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.replay_all));
         else
-            replayF.setForeground(getResources().getDrawable(R.drawable.replay));
+            replayF.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.replay));
 
         if(audioPlayer.isAutoplay())
-            autoPlay.setTextColor(getResources().getColor(R.color.seekbar_progress));
+            autoPlay.setTextColor(ContextCompat.getColor(requireContext(), R.color.seekbar_progress));
         else
-            autoPlay.setTextColor(getResources().getColor(R.color.suggestions));
+            autoPlay.setTextColor(ContextCompat.getColor(requireContext(), R.color.suggestions));
 
         seekbar.setMax((int)audioService.getAudioPlayer().getDuration());
         seekbar.setProgress((int) audioService.getAudioPlayer().getCurrentPosition());
         if(audioService.getAudioPlayer().isAlarm())
-            alarm.setForeground(getResources().getDrawable(R.drawable.alarm_add));
+            alarm.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.alarm_add));
         if(currentlyPlayingSong.getDownloaded() == 1)
             seekbar.setSecondaryProgress(seekbar.getMax());
 

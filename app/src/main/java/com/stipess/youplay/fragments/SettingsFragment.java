@@ -1,7 +1,9 @@
 package com.stipess.youplay.fragments;
 
 
-import android.app.ProgressDialog;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import android.widget.ProgressBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -244,7 +246,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         FileManager.getDownloadFolder().delete();
         BaseDownloadTask task = FileDownloader.getImpl().create(link).setPath(FileManager.getDownloadFolder().getPath());
 
-        final ProgressDialog downloadDialog = new ProgressDialog(getContext());
+        final AlertDialog downloadDialog = new MaterialAlertDialogBuilder(requireContext())
+                .setView(new ProgressBar(requireContext()))
+                .setCancelable(false)
+                .create();
         FileDownloadQueueSet queueSet = new FileDownloadQueueSet(new FileDownloadListener() {
             @Override
             protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
@@ -253,20 +258,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             @Override
             protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                double divide = (double) soFarBytes / totalBytes;
-                double math = (double) downloadDialog.getMax() * divide;
-                downloadDialog.setProgress((int) math);
             }
 
             @Override
             protected void started(BaseDownloadTask task) {
-                downloadDialog.setMessage(getContext().getString(R.string.downloading));
-                downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                downloadDialog.setProgress(0);
-                downloadDialog.setMax(100);
-                downloadDialog.setCancelable(false);
-                downloadDialog.setProgressNumberFormat(null);
-                downloadDialog.dismiss();
                 downloadDialog.show();
             }
 

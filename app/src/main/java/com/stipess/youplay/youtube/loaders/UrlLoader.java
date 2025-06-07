@@ -12,9 +12,9 @@ import com.stipess.youplay.utils.Utils;
 
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
-import org.schabi.newpipe.extractor.services.youtube.extractors.YoutubeStreamExtractor;
+import org.schabi.newpipe.extractor.stream.AudioStream;
+import org.schabi.newpipe.extractor.stream.StreamInfo;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
-import org.schabi.newpipe.extractor.stream.StreamInfoItemsCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,20 +81,20 @@ public class UrlLoader
                 NewPipe.init(DownloaderTestImpl.getInstance());
 
             StreamingService service = NewPipe.getService("YouTube");
-            YoutubeStreamExtractor extractor1 = (YoutubeStreamExtractor) service.getStreamExtractor(getYoutubeLink);
+            StreamInfo streamInfo = StreamInfo.getInfo(service, getYoutubeLink);
 
-            extractor1.fetchPage();
+            List<AudioStream> audioStreams = streamInfo.getAudioStreams();
+            List<StreamInfoItem> relatedVideos = streamInfo.getRelatedStreams();
 
-            StreamInfoItemsCollector relatedVideos = extractor1.getRelatedStreams();
-
-            data.add(Utils.getThumbnailUrl(extractor1));
-            data.add(extractor1.getAudioStreams().get(0).getUrl());
+            data.add(Utils.getThumbnailUrl(streamInfo));
+            if(!audioStreams.isEmpty())
+                data.add(audioStreams.get(0).getUrl());
 
             Log.d(TAG, "Extracted");
 
             if(this.relatedVideos) {
 
-                for(StreamInfoItem stream : relatedVideos.getItems()) {
+                for(StreamInfoItem stream : relatedVideos) {
                     Music music = new Music();
                     music.setAuthor(stream.getUploaderName());
                     music.setViews(Utils.convertViewsToString(stream.getViewCount()));

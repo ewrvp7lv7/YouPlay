@@ -13,6 +13,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
+import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
 import android.net.ConnectivityManager;
 import android.os.Binder;
 import android.os.Build;
@@ -94,6 +96,8 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
     private NotificationManager manager;
     private ServiceCallback serviceCallback;
     private MediaSessionCompat mediaSessionCompat;
+
+    private AudioFocusRequest focusRequest;
 
     private AudioOutputListener outputListener;
     private ConnectivityManager connectivityManager;
@@ -215,7 +219,19 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
         mediaSessionCompat.setActive(true);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AudioAttributes attrs = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build();
+            focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAudioAttributes(attrs)
+                    .setOnAudioFocusChangeListener(this)
+                    .build();
+            audioManager.requestAudioFocus(focusRequest);
+        } else {
+            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        }
 
 //        remoteViews = new RemoteViews(getApplication().getPackageName(), R.layout.custom_notification);
 //        remoteViews.setImageViewResource(R.id.notification_image, R.mipmap.ic_launcher_round);
@@ -323,7 +339,11 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
         if(audioPlayer.getPlayWhenReady())
         {
             drawable = R.drawable.pause;
-            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                audioManager.requestAudioFocus(focusRequest);
+            } else {
+                audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+            }
             if(!this.title.equals("") && !this.image.equals("")) {
                 PlaybackStateCompat.Builder stateBuilder = new PlaybackStateCompat.Builder()
                         .setState(PlaybackStateCompat.STATE_PLAYING, audioPlayer.getCurrentPosition(), 1.0f)
@@ -476,13 +496,12 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
     {
         if(intent != null)
         {
-            if(intent.getSerializableExtra(SONG) != null && !audioPlayer.isStream())
+            if(intent.getParcelableExtra(SONG) != null && !audioPlayer.isStream())
             {
-//                musicList = (ArrayList<Music>) intent.getSerializableExtra(LIST);
-                music = (Music) intent.getSerializableExtra(SONG);
+                music = intent.getParcelableExtra(SONG);
             }
-            else if(audioPlayer.isStream() && intent.getSerializableExtra(SONG) != null)
-                station = (Station) intent.getSerializableExtra(SONG);
+            else if(audioPlayer.isStream() && intent.getParcelableExtra(SONG) != null)
+                station = intent.getParcelableExtra(SONG);
 
 
             switch (intent.getIntExtra(ACTION,0))
@@ -628,7 +647,11 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
         if(manager != null)
             manager.cancelAll();
 
-        audioManager.abandonAudioFocus(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioManager.abandonAudioFocusRequest(focusRequest);
+        } else {
+            audioManager.abandonAudioFocus(this);
+        }
         audioPlayer.stop();
         audioPlayer.release();
         instance = null;

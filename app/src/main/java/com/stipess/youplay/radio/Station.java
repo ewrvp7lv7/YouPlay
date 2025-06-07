@@ -1,8 +1,9 @@
 package com.stipess.youplay.radio;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Station implements Serializable
+public class Station implements Parcelable
 {
     private String id;
     private String name;
@@ -72,5 +73,43 @@ public class Station implements Serializable
     public void setBitRate(int bitRate) {
         this.bitRate = bitRate;
     }
+
+    protected Station(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        url = in.readString();
+        icon = in.readString();
+        country = in.readString();
+        language = in.readString();
+        bitRate = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(url);
+        dest.writeString(icon);
+        dest.writeString(country);
+        dest.writeString(language);
+        dest.writeInt(bitRate);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Station> CREATOR = new Creator<Station>() {
+        @Override
+        public Station createFromParcel(Parcel in) {
+            return new Station(in);
+        }
+
+        @Override
+        public Station[] newArray(int size) {
+            return new Station[size];
+        }
+    };
 
 }

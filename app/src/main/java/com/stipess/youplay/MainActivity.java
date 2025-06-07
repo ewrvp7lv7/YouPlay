@@ -29,9 +29,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.WindowInsetsController;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -333,13 +335,10 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 int color = ContextCompat.getColor(MainActivity.this, R.color.black_b);
                                 Utils.setSystemBarsColor(window, color);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                    WindowInsetsController controller = window.getInsetsController();
-                                    if (controller != null) {
-                                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                                    }
-                                } else {
-                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                                WindowInsetsControllerCompat insetsController =
+                                        WindowCompat.getInsetsController(window, window.getDecorView());
+                                if (insetsController != null) {
+                                    insetsController.setAppearanceLightStatusBars(false);
                                 }
                             }
 
@@ -357,25 +356,10 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                             int color = ContextCompat.getColor(MainActivity.this,
                                     pre ? R.color.toolbar_color : R.color.adapter_color);
                             Utils.setSystemBarsColor(window, color);
-                            if(!pre) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                    WindowInsetsController controller = window.getInsetsController();
-                                    if (controller != null) {
-                                        controller.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                                    }
-                                } else {
-                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                                }
-                            } else {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                    WindowInsetsController controller = window.getInsetsController();
-                                    if (controller != null) {
-                                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                                    }
-                                } else {
-                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-                                }
+                            WindowInsetsControllerCompat insetsController =
+                                    WindowCompat.getInsetsController(window, window.getDecorView());
+                            if (insetsController != null) {
+                                insetsController.setAppearanceLightStatusBars(!pre);
                             }
                         }
 
@@ -393,25 +377,10 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                             int color = ContextCompat.getColor(MainActivity.this,
                                     pre ? R.color.toolbar_color : R.color.adapter_color);
                             Utils.setSystemBarsColor(window, color);
-                            if(!pre) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                    WindowInsetsController controller = window.getInsetsController();
-                                    if (controller != null) {
-                                        controller.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                                    }
-                                } else {
-                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                                }
-                            } else {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                    WindowInsetsController controller = window.getInsetsController();
-                                    if (controller != null) {
-                                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                                    }
-                                } else {
-                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-                                }
+                            WindowInsetsControllerCompat insetsController =
+                                    WindowCompat.getInsetsController(window, window.getDecorView());
+                            if (insetsController != null) {
+                                insetsController.setAppearanceLightStatusBars(!pre);
                             }
                         }
 
@@ -428,25 +397,10 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                             int color = ContextCompat.getColor(MainActivity.this,
                                     pre ? R.color.toolbar_color : R.color.adapter_color);
                             Utils.setSystemBarsColor(window, color);
-                            if(!pre) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                    WindowInsetsController controller = window.getInsetsController();
-                                    if (controller != null) {
-                                        controller.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                                    }
-                                } else {
-                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                                }
-                            } else {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                    WindowInsetsController controller = window.getInsetsController();
-                                    if (controller != null) {
-                                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                                    }
-                                } else {
-                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-                                }
+                            WindowInsetsControllerCompat insetsController =
+                                    WindowCompat.getInsetsController(window, window.getDecorView());
+                            if (insetsController != null) {
+                                insetsController.setAppearanceLightStatusBars(!pre);
                             }
                         }
 
@@ -464,25 +418,10 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
                             int color = ContextCompat.getColor(MainActivity.this,
                                     pre ? R.color.play_fragment_bars : R.color.white);
                             Utils.setSystemBarsColor(window, color);
-                            if(!pre) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                    WindowInsetsController controller = window.getInsetsController();
-                                    if (controller != null) {
-                                        controller.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                                    }
-                                } else {
-                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                                }
-                            } else {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                    WindowInsetsController controller = window.getInsetsController();
-                                    if (controller != null) {
-                                        controller.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
-                                    }
-                                } else {
-                                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-                                }
+                            WindowInsetsControllerCompat insetsController =
+                                    WindowCompat.getInsetsController(window, window.getDecorView());
+                            if (insetsController != null) {
+                                insetsController.setAppearanceLightStatusBars(!pre);
                             }
                         }
 

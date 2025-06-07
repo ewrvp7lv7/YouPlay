@@ -14,7 +14,6 @@ import androidx.preference.PreferenceManager;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
-import android.view.WindowInsetsController;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;

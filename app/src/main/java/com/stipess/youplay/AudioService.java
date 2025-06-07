@@ -37,7 +37,8 @@ import androidx.media.session.MediaButtonReceiver;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.stipess.youplay.listeners.AudioOutputListener;
 import com.stipess.youplay.listeners.ButtonListener;
-import com.stipess.youplay.listeners.NetworkStateListener;
+import android.net.NetworkRequest;
+import com.stipess.youplay.listeners.NetworkStateCallback;
 import com.stipess.youplay.music.Music;
 import com.stipess.youplay.player.AudioPlayer;
 import com.stipess.youplay.radio.Station;
@@ -94,7 +95,8 @@ public class AudioService extends JobIntentService implements AudioManager.OnAud
     private MediaSessionCompat mediaSessionCompat;
 
     private AudioOutputListener outputListener;
-    private NetworkStateListener networkStateListener;
+    private ConnectivityManager connectivityManager;
+    private NetworkStateCallback networkStateCallback;
 
     private boolean wasPlaying = false;
     private boolean isLoss = false;
@@ -219,10 +221,14 @@ public class AudioService extends JobIntentService implements AudioManager.OnAud
 //        remoteViews.setInt(R.id.notification_layout, "setBackgroundColor", getResources().getColor(R.color.light_black));
 
         outputListener       = new AudioOutputListener();
-        networkStateListener = new NetworkStateListener();
+        connectivityManager = getSystemService(ConnectivityManager.class);
+        networkStateCallback = new NetworkStateCallback(this);
 
         registerReceiver(outputListener, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
-        registerReceiver(networkStateListener, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        if (connectivityManager != null) {
+            NetworkRequest req = new NetworkRequest.Builder().build();
+            connectivityManager.registerNetworkCallback(req, networkStateCallback);
+        }
 
         startForegroundService();
 
@@ -630,7 +636,9 @@ public class AudioService extends JobIntentService implements AudioManager.OnAud
         audioPlayer.release();
         instance = null;
         unregisterReceiver(outputListener);
-        unregisterReceiver(networkStateListener);
+        if (connectivityManager != null && networkStateCallback != null) {
+            connectivityManager.unregisterNetworkCallback(networkStateCallback);
+        }
         FileDownloader.getImpl().unBindService();
         int pid = android.os.Process.myPid();
         android.os.Process.killProcess(pid);

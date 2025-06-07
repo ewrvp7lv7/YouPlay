@@ -10,6 +10,8 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -34,6 +36,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.activity.OnBackPressedCallback;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -116,6 +119,13 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
     public static int size = -1;
     public static boolean adLoaded;
 
+    private final OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            handleBackPressed();
+        }
+    };
+
     private int[] imageId = {
             R.drawable.music,
             R.drawable.history,
@@ -175,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
             setTheme(R.style.LightTheme);
 
         super.onCreate(savedInstanceState);
+        getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
 
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
@@ -694,8 +705,19 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
     private boolean internetConnection() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+        if(connectivityManager == null) return false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network network = connectivityManager.getActiveNetwork();
+            if (network == null) return false;
+            NetworkCapabilities caps = connectivityManager.getNetworkCapabilities(network);
+            return caps != null && (caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                    || caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                    || caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                    || caps.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH));
+        } else {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
     }
 
     private void putCurrentIcon() {
@@ -744,6 +766,10 @@ public class MainActivity extends AppCompatActivity implements AudioService.Serv
 
     @Override
     public void onBackPressed() {
+        handleBackPressed();
+    }
+
+    private void handleBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
         Log.d(TAG, "Edit pager: " + pager.getCurrentItem());
         switch (pager.getCurrentItem())
